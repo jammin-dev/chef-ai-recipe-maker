@@ -53,15 +53,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <div className="flex items-center gap-2">
-                <Search />
-                <Input
-                  placeholder="Search"
-                  onChange={(e) => handleFilterRecipe(e)}
-                />
-              </div>
-            </SidebarMenuButton>
+            <div className="flex items-center gap-2">
+              <Search />
+              <Input
+                placeholder="Search"
+                onChange={(e) => handleFilterRecipe(e)}
+              />
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
