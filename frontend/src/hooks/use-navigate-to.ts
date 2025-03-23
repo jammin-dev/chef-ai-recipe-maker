@@ -6,9 +6,10 @@ export function useNavigateTo() {
   return {
     toLogin: (email?: string) => navigate("/auth/login", { state: { email } }),
     toRegister: () => navigate("/auth/register"),
-    toHome: () => navigate("/app/home"),
+    toHome: () => navigate("/home"),
     toLanding: () => navigate("/"),
-    toNewRecipe: (recipe?: any) => navigate("/app/recipe/new", { state: { recipe } }),
-    toRecipe: (id: string) => navigate(`/app/recipe/${id}`),
+    toNewRecipe: (recipe?: any) =>
+      navigate("/recipe/new", { state: { recipe } }),
+    toRecipe: (id: string) => navigate(`/recipe/${id}`),
   };
 }

@@ -28,7 +28,6 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/app",
     element: (
       <RecipeProvider>
         <AppLayout>
@@ -38,7 +37,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true, // Redirects "/app" to "/app/home"
+        index: true,
         element: <Navigate to="home" replace />,
       },
       {
