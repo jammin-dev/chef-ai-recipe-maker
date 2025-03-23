@@ -90,17 +90,17 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
       ),
       action: () => toggleFavorite(recipe.id),
     },
-    {
-      icon: <WandSparkles strokeWidth={1.5} size={24} />,
-      action: () => setOpenImproveRecipeDialog(true),
-    },
-    {
-      icon: <Pencil strokeWidth={1.5} size={24} />,
-      action: () => {
-        setEdit(true);
-        setDirtyRecipe(recipe);
-      },
-    },
+    // {
+    //   icon: <WandSparkles strokeWidth={1.5} size={24} />,
+    //   action: () => setOpenImproveRecipeDialog(true),
+    // },
+    // {
+    //   icon: <Pencil strokeWidth={1.5} size={24} />,
+    //   action: () => {
+    //     setEdit(true);
+    //     setDirtyRecipe(recipe);
+    //   },
+    // },
     {
       icon: <Trash2 strokeWidth={1.5} size={24} />,
       action: () => handleDeleteRecipe(recipe.id),
