@@ -1,5 +1,4 @@
-"use client";
-
+import i18n from "@/i18n";
 import {
   BadgeCheck,
   Bell,
@@ -93,6 +92,12 @@ export function NavUser() {
             <DropdownMenuItem>
               <LogOut />
               Log out
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => i18n.changeLanguage("fr")}>
+              🇫🇷{"  "}Français
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => i18n.changeLanguage("en")}>
+              🇬🇧{"  "}English
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

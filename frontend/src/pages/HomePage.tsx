@@ -1,6 +1,7 @@
 // src/pages/HomePage.tsx
 import { useMemo, useState } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ function HomePage(): JSX.Element {
   const [error, setError] = useState<string | null>(null);
   const [userInput, setUserInput] = useState<string>("");
 
+  const { t } = useTranslation();
   const { toRecipe } = useNavigateTo();
   const { setRecipes } = useRecipe();
 
@@ -65,19 +67,21 @@ function HomePage(): JSX.Element {
         {isLoading && (
           <Label className="flex flex-col items-center justify-center flex-grow">
             <TypingEffectTitle
-              promptExamples={["We're preparing your recipe!", "Hang tight!"]}
+              promptExamples={[t("We're preparing your recipe!)", t("Hang tight!")]}
             />
           </Label>
         )}
         <div className="flex flex-col gap-4">
           <Textarea
             onChange={(e) => setUserInput(e.target.value)}
-            placeholder="Describe your ideal recipe (ingredients, cuisine type, difficulty level, etc.). The more details you provide, the better it will match your expectations!"
+            placeholder={t("input.placeholder.recipe_prompt")}
             className="resize-none min-h-[150px]"
             disabled={isLoading}
           />
           {error && (
-            <p className="text-red-500">An error occurred, please try again.</p>
+            <p className="text-red-500">
+              {t("an error occurred, please try again.")}
+            </p>
           )}
           <Button
             className="mx-auto flex justify-center items-center gap-2"
@@ -85,7 +89,7 @@ function HomePage(): JSX.Element {
             disabled={isLoading}
           >
             {isLoading && <Loader2 className="animate-spin" />}
-            Submit
+            {t("send")}
           </Button>
         </div>
       </div>
