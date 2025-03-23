@@ -67,7 +67,10 @@ function HomePage(): JSX.Element {
         {isLoading && (
           <Label className="flex flex-col items-center justify-center flex-grow">
             <TypingEffectTitle
-              promptExamples={[t("We're preparing your recipe!)", t("Hang tight!")]}
+              promptExamples={[
+                t("We're preparing your recipe!"),
+                t("Hang tight!"),
+              ]}
             />
           </Label>
         )}
