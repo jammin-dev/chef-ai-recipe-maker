@@ -61,7 +61,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <Input
                 placeholder={t("Search")}
                 onChange={(e) => handleFilterRecipe(e)}
-                autoFocus={false}
               />
             </div>
           </SidebarMenuItem>
