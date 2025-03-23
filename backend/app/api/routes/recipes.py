@@ -8,6 +8,7 @@ from fastapi import Body, APIRouter, HTTPException
 from sqlmodel import func, select, delete
 
 from app.api.deps import CurrentUser, SessionDep
+from app.core.config import settings
 from app.models import (
     Direction,
     DirectionCreate,
@@ -22,7 +23,7 @@ from app.models import (
 )
 
 # Define your OpenAI constants (consider storing these securely)
-OPENAI_API_KEY = ""
+OPENAI_API_KEY = settings.OPENAI_API_KEY
 OPENAI_URL = "https://api.openai.com/v1/chat/completions"
 
 router = APIRouter(prefix="/recipes", tags=["recipes"])
