@@ -43,7 +43,6 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
   };
 
   const handleUpdateRecipe = async () => {
-    console.log(dirtyRecipe);
     if (dirtyRecipe) {
       setRecipe(dirtyRecipe);
       await updateRecipe(dirtyRecipe);
@@ -94,13 +93,13 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
     //   icon: <WandSparkles strokeWidth={1.5} size={24} />,
     //   action: () => setOpenImproveRecipeDialog(true),
     // },
-    // {
-    //   icon: <Pencil strokeWidth={1.5} size={24} />,
-    //   action: () => {
-    //     setEdit(true);
-    //     setDirtyRecipe(recipe);
-    //   },
-    // },
+    {
+      icon: <Pencil strokeWidth={1.5} size={24} />,
+      action: () => {
+        setEdit(true);
+        setDirtyRecipe(recipe);
+      },
+    },
     {
       icon: <Trash2 strokeWidth={1.5} size={24} />,
       action: () => handleDeleteRecipe(recipe.id),
