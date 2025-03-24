@@ -60,7 +60,7 @@ function HomePage(): JSX.Element {
     <div className="flex flex-col items-center gap-5 flex-grow h-full w-full">
       <div className="flex flex-col flex-grow flex-1 w-full h-full md:min-w-md px-8">
         <Label
-          className={`flex flex-col items-center justify-center flex-grow mt-[-50px] ${
+          className={`flex flex-col items-center justify-center flex-grow ${
             isLoading ? "hidden" : ""
           }`}
         >

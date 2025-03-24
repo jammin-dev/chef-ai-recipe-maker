@@ -10,9 +10,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
       <AppSidebar />
       <SidebarInset>
         <div className="flex flex-col flex-1 items-center w-full justify-between">
-          <div className="w-full">
-            <Header />
-          </div>
+          <Header />
           <div className="flex-1 flex flex-col items-center justify-center w-full p-2 md:p-10">
             {children}
           </div>
