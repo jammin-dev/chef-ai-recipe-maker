@@ -5,7 +5,9 @@ interface TypoProps {
 
 export function TypoH1({ classname, children }: TypoProps) {
   return (
-    <h1 className="scroll-m-20 text-3xl md:text-5xl font-extrabold tracking-tight">
+    <h1
+      className={`scroll-m-20 text-3xl md:text-5xl font-extrabold tracking-tight leading-none ${classname}`}
+    >
       {children}
     </h1>
   );
@@ -31,7 +33,9 @@ export function TypoH3({ children }: TypoProps) {
 
 export function TypoH4({ classname, children }: TypoProps) {
   return (
-    <h3 className="scroll-m-20 text-sm md:text-lg font-semibold tracking-tight">
+    <h3
+      className={`scroll-m-20 text-sm md:text-lg font-semibold tracking-tight ${classname}`}
+    >
       {children}
     </h3>
   );
