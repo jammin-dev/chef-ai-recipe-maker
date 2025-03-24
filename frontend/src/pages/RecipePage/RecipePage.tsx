@@ -140,6 +140,7 @@ const RecipePage: React.FC = () => {
             setDirtyRecipe={setDirtyRecipe}
             setOpenImproveRecipeDialog={setOpenImproveRecipeDialog}
             setImprovedRecipe={setImprovedRecipe}
+            dirtyRecipe={dirtyRecipe}
           />
           <CardTitle>
             {edit ? (
