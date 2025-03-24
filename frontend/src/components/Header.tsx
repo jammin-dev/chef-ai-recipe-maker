@@ -4,7 +4,6 @@ import { TypoLead } from "@/components/ui/typography";
 import { PanelLeftIcon, SquarePen } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
 import { Button } from "./ui/button";
-import { useNavigateTo } from "@/hooks/use-navigate-to";
 
 const Header = () => {
   const { toggleSidebar } = useSidebar();
