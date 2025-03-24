@@ -5,7 +5,7 @@ interface TypoProps {
 
 export function TypoH1({ children }: TypoProps) {
   return (
-    <h1 className="scroll-m-20 text-5xl font-extrabold tracking-tight">
+    <h1 className="scroll-m-20 text-3xl md:text-5xl font-extrabold tracking-tight">
       {children}
     </h1>
   );
@@ -14,7 +14,7 @@ export function TypoH1({ children }: TypoProps) {
 export function TypoH2({ classname, children }: TypoProps) {
   return (
     <h2
-      className={`"scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 " ${classname}`}
+      className={`"scroll-m-20 pb-2 text-xl md:text-3xl font-semibold tracking-tight first:mt-0 " ${classname}`}
     >
       {children}
     </h2>
@@ -23,7 +23,7 @@ export function TypoH2({ classname, children }: TypoProps) {
 
 export function TypoH3({ children }: TypoProps) {
   return (
-    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+    <h3 className="scroll-m-20 text-lg md:text-2xl font-semibold tracking-tight">
       {children}
     </h3>
   );
@@ -31,7 +31,7 @@ export function TypoH3({ children }: TypoProps) {
 
 export function TypoH4({ children }: TypoProps) {
   return (
-    <h3 className="scroll-m-20 text-xl font-semibold tracking-tight">
+    <h3 className="scroll-m-20 text-sm md:text-lg font-semibold tracking-tight">
       {children}
     </h3>
   );
