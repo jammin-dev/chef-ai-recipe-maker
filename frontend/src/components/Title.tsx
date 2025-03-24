@@ -5,8 +5,8 @@ const Title = () => {
   const { toHome } = useNavigateTo();
   return (
     <div className="cursor-pointer" onClick={toHome}>
-      <TypoH1>Chef!</TypoH1>
-      <TypoH4>AI Recipe Maker</TypoH4>
+      <TypoH1 classname="leading-none">Chef!</TypoH1>
+      <TypoH4 classname="leading-none ml-5">AI Recipe Maker</TypoH4>
     </div>
   );
 };
