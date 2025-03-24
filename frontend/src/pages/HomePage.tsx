@@ -44,9 +44,11 @@ function HomePage(): JSX.Element {
         setError(err.message);
       } else {
         console.error(String(err));
-        setError("An error occurred, please try again.");
+        setError(t("an error occurred, please try again."));
         setIsLoading(false);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -56,9 +58,9 @@ function HomePage(): JSX.Element {
 
   return (
     <div className="flex flex-col items-center gap-5 flex-grow h-full w-full">
-      <div className="flex flex-col flex-grow flex-1 justify-between w-full h-full px-8 md:min-w-md">
+      <div className="flex flex-col flex-grow flex-1 w-full h-full md:min-w-md px-8">
         <Label
-          className={`flex flex-col items-center justify-center flex-grow ${
+          className={`flex flex-col items-center justify-center flex-grow mt-[-50px] ${
             isLoading ? "hidden" : ""
           }`}
         >
@@ -78,8 +80,14 @@ function HomePage(): JSX.Element {
           <Textarea
             onChange={(e) => setUserInput(e.target.value)}
             placeholder={t("input.placeholder.recipe_prompt")}
-            className="resize-none min-h-[150px]"
+            className="resize-none min-h-[100px]"
             disabled={isLoading}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
           />
           {error && (
             <p className="text-red-500">
