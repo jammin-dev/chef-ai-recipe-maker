@@ -24,6 +24,7 @@ interface ImproveRecipeDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   recipe: Recipe;
+  setImprovedRecipe: () => void;
 }
 
 const ImproveRecipeDialog: React.FC<ImproveRecipeDialogProps> = ({
@@ -31,6 +32,7 @@ const ImproveRecipeDialog: React.FC<ImproveRecipeDialogProps> = ({
   setOpen,
   recipe,
   setImprovedRecipe,
+  setImprove,
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -48,16 +50,17 @@ const ImproveRecipeDialog: React.FC<ImproveRecipeDialogProps> = ({
         id: recipe.id,
         requestBody: { user_input: userInput },
       });
+      improvedRecipe.id = uuidv4();
       improvedRecipe.ingredients?.forEach((ing) => {
         ing.id = uuidv4();
       });
       improvedRecipe.directions?.forEach((ing) => {
         ing.id = uuidv4();
       });
-      // updateRecipe(improvedRecipe);
       setUserInput("");
       setOpen(false);
       setIsLoading(false);
+      setImprove(true);
       setImprovedRecipe(improvedRecipe);
     } catch (err: unknown) {
       console.error(err);
@@ -105,7 +108,7 @@ const ImproveRecipeDialog: React.FC<ImproveRecipeDialogProps> = ({
           </>
         )}
         <DialogFooter>
-          <Button type="button" onClick={handleSend}>
+          <Button type="button" onClick={handleSend} disabled={isLoading}>
             Submit
           </Button>
         </DialogFooter>
