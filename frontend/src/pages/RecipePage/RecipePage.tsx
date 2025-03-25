@@ -153,7 +153,7 @@ const RecipePage: React.FC = () => {
               <TypoH2>{recipeToDisplay?.title}</TypoH2>
             )}
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="flex flex-col gap-2">
             {edit ? (
               <Textarea
                 className="h-40"
@@ -165,8 +165,9 @@ const RecipePage: React.FC = () => {
             )}
 
             {edit ? (
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
+                  {"Preparation: "}
                   <Input
                     className="w-16"
                     value={dirtyRecipe.preparation_time ?? ""}
@@ -177,6 +178,7 @@ const RecipePage: React.FC = () => {
                   {"min"}
                 </div>
                 <div className="flex items-center gap-2">
+                  {"Cooking: "}
                   <Input
                     className="w-16"
                     value={dirtyRecipe.cook_time ?? ""}
