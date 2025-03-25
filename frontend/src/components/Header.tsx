@@ -4,6 +4,7 @@ import { TypoLead } from "@/components/ui/typography";
 import { PanelLeftIcon, SquarePen } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
 import { Button } from "./ui/button";
+import { useNavigateTo } from "@/hooks/use-navigate-to";
 
 const Header = () => {
   const { toggleSidebar } = useSidebar();
@@ -20,7 +21,7 @@ const Header = () => {
       </Button>
       <Title />
       <div className="flex gap-2">
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon" onClick={toHome}>
           <SquarePen size={22} />
         </Button>
         <ModeToggle />
