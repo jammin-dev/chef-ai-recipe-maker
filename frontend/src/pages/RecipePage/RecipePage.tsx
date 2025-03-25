@@ -23,9 +23,11 @@ import { useRecipe } from "@/hooks/use-recipe";
 import { Direction, Ingredient, Recipe } from "@/interfaces";
 import { useNavigateTo } from "@/hooks/use-navigate-to";
 import ImproveRecipeDialog from "./ImproveRecipeDialog";
+import { RecipesService } from "@/client";
 
 const RecipePage: React.FC = () => {
   const [edit, setEdit] = useState<boolean>(false);
+  const [improve, setImprove] = useState<boolean>(false);
   const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
   const [dirtyRecipe, setDirtyRecipe] = useState<Partial<Recipe>>({});
   const [improvedRecipe, setImprovedRecipe] = useState<Recipe | null>(null);
@@ -34,6 +36,7 @@ const RecipePage: React.FC = () => {
   if (improvedRecipe) {
     recipeToDisplay = improvedRecipe;
   }
+
   const [openImproveRecipeDialog, setOpenImproveRecipeDialog] =
     useState<boolean>(false);
 
@@ -41,20 +44,24 @@ const RecipePage: React.FC = () => {
   const [addIngredient, setAddIngredient] = useState<string>("");
   const [addDirection, setAddDirection] = useState<string>("");
 
-  const { recipes } = useRecipe();
   const { toHome } = useNavigateTo();
 
   // React Router hook to get the passed-in recipe from location state
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    const foundRecipe = recipes.find((r) => r.id === id);
-    if (foundRecipe) {
-      setCurrentRecipe(foundRecipe);
-    } else {
-      toHome();
-    }
-  }, [id, recipes, toHome]);
+    const fetchOrFindRecipe = async () => {
+      try {
+        const recipeData = await RecipesService.readRecipe({ id });
+        setCurrentRecipe(recipeData);
+      } catch (error) {
+        console.error("Error fetching recipe:", error);
+        toHome();
+        return;
+      }
+    };
+    fetchOrFindRecipe();
+  }, [id]);
 
   // ------------------------------------------------------------------
   // Handlers for updating local "dirtyRecipe"
@@ -141,6 +148,9 @@ const RecipePage: React.FC = () => {
             setOpenImproveRecipeDialog={setOpenImproveRecipeDialog}
             setImprovedRecipe={setImprovedRecipe}
             dirtyRecipe={dirtyRecipe}
+            improve={improve}
+            setImprove={setImprove}
+            currentRecipe={currentRecipe}
           />
           <CardTitle>
             {edit ? (
@@ -338,7 +348,9 @@ const RecipePage: React.FC = () => {
       <ImproveRecipeDialog
         open={openImproveRecipeDialog}
         setOpen={setOpenImproveRecipeDialog}
-        recipe={recipeToDisplay}
+        recipe={currentRecipe}
+        setImprovedRecipe={setImprovedRecipe}
+        setImprove={setImprove}
       />
     </>
   );
