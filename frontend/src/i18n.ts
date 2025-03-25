@@ -14,9 +14,13 @@ i18n
       en: { translation: en },
       fr: { translation: fr },
     },
-    lng: "en", // Default language
+    load: "languageOnly",
     fallbackLng: "en",
     interpolation: { escapeValue: false },
+    detection: {
+      order: ["querystring", "localStorage", "navigator", "htmlTag"],
+      caches: ["localStorage"],
+    },
   });
 
 export default i18n;
