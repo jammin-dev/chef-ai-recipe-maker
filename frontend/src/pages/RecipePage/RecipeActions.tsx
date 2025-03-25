@@ -32,9 +32,13 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
   setDirtyRecipe,
   dirtyRecipe,
   setOpenImproveRecipeDialog,
+  currentRecipe,
+  improve,
+  setImprove,
+  setImprovedRecipe,
 }) => {
-  const { toHome } = useNavigateTo();
-  const { toggleFavorite, deleteRecipe, updateRecipe } = useRecipe();
+  const { toHome, toRecipe } = useNavigateTo();
+  const { toggleFavorite, deleteRecipe, updateRecipe, addRecipe } = useRecipe();
 
   // --- Handlers ---
   const handleDeleteRecipe = (id: string) => {
@@ -50,68 +54,81 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
     setEdit(false);
   };
 
+  const handleUndoImprove = () => {
+    setImprove(false);
+    setImprovedRecipe(null);
+  };
+
+  const handleSaveImprove = async () => {
+    const newRecipe = await addRecipe(recipe);
+    if (newRecipe) {
+      toRecipe(newRecipe.id);
+      await deleteRecipe(currentRecipe.id);
+    }
+  };
+
   // --- Action Configs ---
   const editActions = [
     {
-      icon: <Save strokeWidth={1.5} size={24} />,
+      icon: <Save strokeWidth={1.5} size={24} className="transition-all" />,
       action: handleUpdateRecipe,
     },
     {
-      icon: <Undo2 strokeWidth={1.5} size={24} />,
+      icon: <Undo2 strokeWidth={1.5} size={24} className="transition-all" />,
       action: () => setEdit(false),
     },
   ];
 
   const improveActions = [
     {
-      icon: <Pencil strokeWidth={1.5} size={24} />,
-      action: () => {
-        setEdit(true);
-        setDirtyRecipe(recipe);
-      },
+      icon: <Save strokeWidth={1.5} size={24} className="transition-all" />,
+      action: handleSaveImprove,
     },
     {
-      icon: <Save strokeWidth={1.5} size={24} />,
-      action: handleUpdateRecipe,
-    },
-    {
-      icon: <Undo2 strokeWidth={1.5} size={24} />,
-      action: () => setEdit(false),
+      icon: <Undo2 strokeWidth={1.5} size={24} className="transition-all" />,
+      action: handleUndoImprove,
     },
   ];
 
   const defaultActions = [
     {
       icon: recipe.is_favorite ? (
-        <Star style={{ fill: "currentColor" }} />
+        <Star style={{ fill: "currentColor" }} className="transition-all" />
       ) : (
-        <Star strokeWidth={1.5} size={24} />
+        <Star strokeWidth={1.5} size={24} className="transition-all" />
       ),
       action: () => toggleFavorite(recipe.id),
     },
-    // {
-    //   icon: <WandSparkles strokeWidth={1.5} size={24} />,
-    //   action: () => setOpenImproveRecipeDialog(true),
-    // },
     {
-      icon: <Pencil strokeWidth={1.5} size={24} />,
+      icon: (
+        <WandSparkles strokeWidth={1.5} size={24} className="transition-all" />
+      ),
+      action: () => setOpenImproveRecipeDialog(true),
+    },
+    {
+      icon: <Pencil strokeWidth={1.5} size={24} className="transition-all" />,
       action: () => {
         setEdit(true);
         setDirtyRecipe(recipe);
       },
     },
     {
-      icon: <Trash2 strokeWidth={1.5} size={24} />,
+      icon: <Trash2 strokeWidth={1.5} size={24} className="transition-all" />,
       action: () => handleDeleteRecipe(recipe.id),
     },
     {
-      icon: <ArrowLeft strokeWidth={1.5} size={24} />,
+      icon: (
+        <ArrowLeft strokeWidth={1.5} size={24} className="transition-all" />
+      ),
       action: () => toHome(),
     },
   ];
 
-  let actionsToRender = edit ? editActions : defaultActions;
-  if (recipe.is_improved) actionsToRender = improveActions;
+  let actionsToRender = edit
+    ? editActions
+    : improve
+    ? improveActions
+    : defaultActions;
 
   // --- Rendering ---
   return (

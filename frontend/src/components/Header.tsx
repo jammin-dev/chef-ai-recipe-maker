@@ -13,12 +13,12 @@ const Header = () => {
   return (
     <div className="flex px-5 items-center justify-between mt-5 w-full">
       <Button variant="outline" size="icon" onClick={toggleSidebar}>
-        <PanelLeftIcon size={22} />
+        <PanelLeftIcon size={22} className="transition-all" />
       </Button>
       <Title />
       <div className="flex gap-2">
         <Button variant="outline" size="icon" onClick={toHome}>
-          <SquarePen size={22} />
+          <SquarePen size={22} className="transition-all" />
         </Button>
         <ModeToggle />
       </div>

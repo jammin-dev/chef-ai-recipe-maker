@@ -67,7 +67,6 @@ export function RecipeProvider({ children }: RecipeProviderProps): JSX.Element {
   const updateRecipe = async (
     recipe: RecipesUpdateRecipeData
   ): Promise<RecipePublic> => {
-    console.log("hey");
     const updatedRecipe = await RecipesService.updateRecipe({
       id: recipe.id,
       requestBody: recipe,
