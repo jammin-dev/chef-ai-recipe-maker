@@ -151,6 +151,7 @@ const RecipePage: React.FC = () => {
             improve={improve}
             setImprove={setImprove}
             currentRecipe={currentRecipe}
+            setCurrentRecipe={setCurrentRecipe}
           />
           <CardTitle>
             {edit ? (

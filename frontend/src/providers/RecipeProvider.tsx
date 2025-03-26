@@ -88,14 +88,29 @@ export function RecipeProvider({ children }: RecipeProviderProps): JSX.Element {
     }
   };
 
-  const toggleFavorite = (id: string): void => {
-    setRecipes((prev) =>
-      prev.map((recipe) =>
-        recipe.id === id
-          ? { ...recipe, is_favorite: !recipe.is_favorite }
-          : recipe
-      )
-    );
+  const toggleFavorite = async (id: string): Promise<void> => {
+    try {
+      // Find the recipe in the current list
+      const recipeToToggle = recipes.find((r) => r.id === id);
+      if (!recipeToToggle) return;
+
+      const updatedFavorite = !recipeToToggle.is_favorite;
+
+      const updatedRecipe = await RecipesService.updateRecipe({
+        id,
+        requestBody: { is_favorite: updatedFavorite },
+      });
+
+      setRecipes((prev) =>
+        prev.map((recipe) =>
+          recipe.id === id
+            ? { ...recipe, is_favorite: updatedRecipe.is_favorite }
+            : recipe
+        )
+      );
+    } catch (error) {
+      console.error("Error toggling favorite recipe:", error);
+    }
   };
 
   // --------------------------------------

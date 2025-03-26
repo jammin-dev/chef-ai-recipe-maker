@@ -38,9 +38,6 @@ const ImproveRecipeDialog: React.FC<ImproveRecipeDialogProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [userInput, setUserInput] = useState<string>("");
 
-  const { toRecipe } = useNavigateTo();
-  const { updateRecipe } = useRecipe();
-
   const handleSend = async (): Promise<void> => {
     setIsLoading(true);
     setError(null);
