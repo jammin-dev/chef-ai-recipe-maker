@@ -137,22 +137,22 @@ const RecipePage: React.FC = () => {
 
   return (
     <>
-      <Card className="w-full max-w-6xl border-none ">
+      <Card className="w-full max-w-6xl border-none">
+        <RecipeActions
+          recipe={recipeToDisplay}
+          setRecipe={setCurrentRecipe}
+          setEdit={setEdit}
+          edit={edit}
+          setDirtyRecipe={setDirtyRecipe}
+          setOpenImproveRecipeDialog={setOpenImproveRecipeDialog}
+          setImprovedRecipe={setImprovedRecipe}
+          dirtyRecipe={dirtyRecipe}
+          improve={improve}
+          setImprove={setImprove}
+          currentRecipe={currentRecipe}
+          setCurrentRecipe={setCurrentRecipe}
+        />
         <CardHeader className="flex flex-col gap-2">
-          <RecipeActions
-            recipe={recipeToDisplay}
-            setRecipe={setCurrentRecipe}
-            setEdit={setEdit}
-            edit={edit}
-            setDirtyRecipe={setDirtyRecipe}
-            setOpenImproveRecipeDialog={setOpenImproveRecipeDialog}
-            setImprovedRecipe={setImprovedRecipe}
-            dirtyRecipe={dirtyRecipe}
-            improve={improve}
-            setImprove={setImprove}
-            currentRecipe={currentRecipe}
-            setCurrentRecipe={setCurrentRecipe}
-          />
           <CardTitle>
             {edit ? (
               <Textarea

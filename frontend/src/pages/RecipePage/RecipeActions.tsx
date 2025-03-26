@@ -142,7 +142,7 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
 
   // --- Rendering ---
   return (
-    <div className="flex gap-2 justify-end mb-5 ">
+    <div className="flex gap-2 justify-end mb-5 sticky top-5 pr-5">
       {actionsToRender.map(({ icon, action }, index) => (
         <ActionButton key={index} icon={icon} action={action} />
       ))}
