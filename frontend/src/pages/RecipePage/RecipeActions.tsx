@@ -33,6 +33,7 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
   dirtyRecipe,
   setOpenImproveRecipeDialog,
   currentRecipe,
+  setCurrentRecipe,
   improve,
   setImprove,
   setImprovedRecipe,
@@ -62,9 +63,18 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
   const handleSaveImprove = async () => {
     const newRecipe = await addRecipe(recipe);
     if (newRecipe) {
-      toRecipe(newRecipe.id);
       await deleteRecipe(currentRecipe.id);
+      setImprove(false);
+      setImprovedRecipe(null);
+      toRecipe(newRecipe.id);
     }
+  };
+
+  const handleToggleFavorite = async () => {
+    await toggleFavorite(currentRecipe.id);
+    setCurrentRecipe((prev) =>
+      prev ? { ...prev, is_favorite: !prev.is_favorite } : prev
+    );
   };
 
   // --- Action Configs ---
@@ -97,7 +107,7 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
       ) : (
         <Star strokeWidth={1.5} size={24} className="transition-all" />
       ),
-      action: () => toggleFavorite(recipe.id),
+      action: handleToggleFavorite,
     },
     {
       icon: (
