@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 import { TypoH2 } from "@/components/ui/typography";
-import { useTranslation } from "react-i18next";
 
 interface TypingEffectTitleProps {
   promptExamples: string[];
@@ -16,10 +15,15 @@ export default function TypingEffectTitle({
   const [isDeleting, setIsDeleting] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
 
-  const { t } = useTranslation();
+  useEffect(() => {
+    setDisplayedText("");
+    setIndex(0);
+    setCharIndex(0);
+    setIsDeleting(false);
+  }, [promptExamples]);
 
   useEffect(() => {
-    const currentText = t(promptExamples[index]);
+    const currentText = promptExamples[index];
     if (!isDeleting && charIndex < currentText.length) {
       // Typing effect
       const timeout = setTimeout(() => {

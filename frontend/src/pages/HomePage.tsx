@@ -9,19 +9,23 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 import TypingEffectTitle from "@/components/TypingEffectTitle";
-import promptExamples from "@/prompt-example";
+
 import { useNavigateTo } from "@/hooks/use-navigate-to";
 import { useRecipe } from "@/hooks/use-recipe";
 import { RecipesService } from "@/client";
+
+import { promptExemples } from "@/prompt-examples";
 
 function HomePage(): JSX.Element {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [userInput, setUserInput] = useState<string>("");
 
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { toRecipe } = useNavigateTo();
   const { setRecipes } = useRecipe();
+
+  const lang = i18n.language || "en";
 
   const handleSend = async (): Promise<void> => {
     setIsLoading(true);
@@ -53,8 +57,8 @@ function HomePage(): JSX.Element {
   };
 
   const memorizedPromptExamples = useMemo(() => {
-    return promptExamples.slice().sort(() => Math.random() - 0.5);
-  }, []);
+    return promptExemples[lang].slice().sort(() => Math.random() - 0.5);
+  }, [lang]);
 
   return (
     <div className="flex flex-col items-center gap-5 flex-grow h-full w-full">

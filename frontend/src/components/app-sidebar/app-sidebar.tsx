@@ -21,6 +21,7 @@ import { Separator } from "../ui/separator";
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import RecipeItem from "./recipe-item";
+import { useTranslation } from "react-i18next";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [result, setResult] = useState(null);
@@ -29,6 +30,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { toggleSidebar } = useSidebar();
   const { recipes, deleteRecipe } = useRecipe();
   const isMobile = useIsMobile();
+
+  const { t } = useTranslation();
 
   const handleFilterRecipe = (e) => {
     if (e.target.value.length === 0) {
@@ -56,7 +59,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <div className="flex items-center gap-2">
               <Search />
               <Input
-                placeholder="Search"
+                placeholder={t("Search")}
                 onChange={(e) => handleFilterRecipe(e)}
                 autoFocus={false}
               />
@@ -67,7 +70,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         {result ? (
           <SidebarGroup>
-            <SidebarGroupLabel>Results</SidebarGroupLabel>
+            <SidebarGroupLabel>{t("Results")}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {result.map((recipe) => (
@@ -85,7 +88,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ) : (
           <>
             <SidebarGroup>
-              <SidebarGroupLabel>Recently Saved</SidebarGroupLabel>
+              <SidebarGroupLabel>{t("Recently saved")}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {recipes.map((recipe) => (
@@ -102,7 +105,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarGroup>
             <Separator />
             <SidebarGroup>
-              <SidebarGroupLabel>Favorites</SidebarGroupLabel>
+              <SidebarGroupLabel>{t("Favorites")}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {recipes.map((recipe) => {
