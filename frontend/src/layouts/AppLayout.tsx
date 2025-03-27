@@ -8,6 +8,7 @@ import { Outlet } from "react-router-dom";
 
 function AppLayout() {
   const { isAuthenticated } = useAuth();
+  console.log(isAuthenticated);
   return (
     <SidebarProvider>
       {isAuthenticated && <AppSidebar />}

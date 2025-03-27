@@ -33,10 +33,20 @@ const LoginDialog: React.FC<LoginDialogProps> = ({ open, setOpen }) => {
           <AlertDialogCancel onClick={() => setOpen(false)}>
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction onClick={() => toRegister()}>
+          <AlertDialogAction
+            onClick={() => {
+              setOpen(false);
+              toRegister();
+            }}
+          >
             Register
           </AlertDialogAction>
-          <AlertDialogAction onClick={() => toLogin()}>
+          <AlertDialogAction
+            onClick={() => {
+              setOpen(false);
+              toLogin();
+            }}
+          >
             Log in
           </AlertDialogAction>
         </AlertDialogFooter>

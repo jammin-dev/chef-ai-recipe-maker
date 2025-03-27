@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 
 import HomePage from "@/pages/HomePage";
 import AuthLayout from "@/layouts/AuthLayout";
@@ -10,40 +10,46 @@ import { AuthProvider } from "@/providers/AuthProvider";
 
 const router = createBrowserRouter([
   {
-    path: "/auth",
-    element: <AuthLayout />,
-    children: [
-      {
-        path: "login",
-        element: <AuthPage isLogin={true} />,
-      },
-      {
-        path: "register",
-        element: <AuthPage isRegister={true} />,
-      },
-    ],
-  },
-  {
-    // All routes that need to be wrapped in RecipeProvider and AppLayout
     element: (
       <AuthProvider>
-        <RecipeProvider>
-          <AppLayout />
-        </RecipeProvider>
+        <Outlet />
       </AuthProvider>
     ),
     children: [
       {
-        index: true,
-        element: <HomePage />, // Now "/" renders HomePage directly
+        path: "/auth",
+        element: <AuthLayout />,
+        children: [
+          {
+            path: "login",
+            element: <AuthPage isLogin={true} />,
+          },
+          {
+            path: "register",
+            element: <AuthPage isRegister={true} />,
+          },
+        ],
       },
       {
-        path: "recipe/guest",
-        element: <RecipePage />,
-      },
-      {
-        path: "recipe/:id",
-        element: <RecipePage />,
+        element: (
+          <RecipeProvider>
+            <AppLayout />
+          </RecipeProvider>
+        ),
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+          {
+            path: "recipe/guest",
+            element: <RecipePage />,
+          },
+          {
+            path: "recipe/:id",
+            element: <RecipePage />,
+          },
+        ],
       },
     ],
   },
