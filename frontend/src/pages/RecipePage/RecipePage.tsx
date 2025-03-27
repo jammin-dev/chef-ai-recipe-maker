@@ -19,11 +19,11 @@ import DragAndDropList from "@/components/DragAndDrop";
 import RecipeActions from "@/pages/RecipePage/RecipeActions";
 
 import { useParams } from "react-router-dom";
-import { useRecipe } from "@/hooks/use-recipe";
 import { Direction, Ingredient, Recipe } from "@/interfaces";
 import { useNavigateTo } from "@/hooks/use-navigate-to";
 import ImproveRecipeDialog from "./ImproveRecipeDialog";
 import { RecipesService } from "@/client";
+import { useAuth } from "@/hooks/use-auth";
 
 const RecipePage: React.FC = () => {
   const [edit, setEdit] = useState<boolean>(false);
@@ -45,9 +45,9 @@ const RecipePage: React.FC = () => {
   const [addDirection, setAddDirection] = useState<string>("");
 
   const { toHome } = useNavigateTo();
-
   // React Router hook to get the passed-in recipe from location state
   const { id } = useParams<{ id: string }>();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetchOrFindRecipe = async () => {
@@ -60,7 +60,12 @@ const RecipePage: React.FC = () => {
         return;
       }
     };
-    fetchOrFindRecipe();
+    if (isAuthenticated) {
+      fetchOrFindRecipe();
+    } else {
+      const tempRecipe = JSON.parse(sessionStorage.getItem("temp-recipe"));
+      setCurrentRecipe(tempRecipe);
+    }
   }, [id]);
 
   // ------------------------------------------------------------------

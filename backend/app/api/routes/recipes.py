@@ -20,6 +20,7 @@ from app.models import (
     RecipesPublic,
     RecipeUpdate,
     Message,
+    User,
 )
 
 # Define your OpenAI constants (consider storing these securely)
@@ -253,11 +254,11 @@ def build_prompt(user_input: str) -> str:
         Renvoyez uniquement le JSON sans aucun texte additionnel.
     """
 
+# To apply rate limite https://chatgpt.com/c/67e587c2-a084-8003-a59e-84f0c7329d6b
 @router.post("/generate", response_model=RecipePublic)
 def generate_recipe(
     *,
     session: SessionDep,
-    current_user: CurrentUser,
     user_input: str = Body(..., embed=True)
 ) -> RecipePublic:
     """
@@ -266,6 +267,8 @@ def generate_recipe(
     parses the JSON, creates the recipe using the same logic as create_recipe,
     and returns a RecipePublic.
     """
+    stmt = select(User).where(User.email == "guest@jammin-dev.com")
+    current_user = session.exec(stmt).first()
     # Use the build_prompt function to construct the detailed prompt
     final_prompt = build_prompt(user_input)
     

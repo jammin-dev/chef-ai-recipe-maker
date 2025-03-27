@@ -5,11 +5,9 @@ import { ThemeProvider } from "./providers/ThemeProvider";
 
 function App() {
   return (
-    <div className="h-dvh w-screen test">
+    <div className="h-dvh w-screen">
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <div className="flex flex-col items-center justify-between w-full h-full">
-          <RouterProvider router={router} />
-        </div>
+        <RouterProvider router={router} />
       </ThemeProvider>
     </div>
   );

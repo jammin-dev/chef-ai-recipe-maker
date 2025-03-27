@@ -16,8 +16,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Recipe } from "@/interfaces";
 import { useState } from "react";
-import { useNavigateTo } from "@/hooks/use-navigate-to";
-import { useRecipe } from "@/hooks/use-recipe";
+
 import { RecipesService } from "@/client";
 
 interface ImproveRecipeDialogProps {
@@ -78,7 +77,7 @@ const ImproveRecipeDialog: React.FC<ImproveRecipeDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-1/2 h-5/6 sm:h-1/2 flex flex-col justify-between">
+      <DialogContent className="sm:max-w-1/2 h-1/2 sm:h-1/2 flex flex-col justify-between">
         <DialogHeader>
           <DialogTitle>Improve Your Recipe</DialogTitle>
           <DialogDescription>
