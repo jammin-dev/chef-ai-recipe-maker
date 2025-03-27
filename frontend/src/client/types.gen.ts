@@ -229,7 +229,7 @@ export type RecipesImproveRecipeData = {
     requestBody: Body_recipes_improve_recipe;
 };
 
-export type RecipesImproveRecipeResponse = (RecipePublic);
+export type RecipesImproveRecipeResponse = (unknown);
 
 export type UsersReadUsersData = {
     limit?: number;

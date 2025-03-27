@@ -3,17 +3,18 @@ import { AppSidebar } from "@/components/app-sidebar/app-sidebar";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { useAuth } from "@/hooks/use-auth";
+import { Outlet } from "react-router-dom";
 
-function AppLayout({ children }: { children: React.ReactNode }) {
+function AppLayout() {
+  const { isAuthenticated } = useAuth();
   return (
     <SidebarProvider>
-      <AppSidebar />
+      {isAuthenticated && <AppSidebar />}
       <SidebarInset>
-        <div className="flex flex-col flex-1 gap-3 items-center w-full justify-between">
+        <div className="flex flex-col flex-1 items-center w-full gap-5 p-2 sm:p-5">
           <Header />
-          <div className="flex-1 flex flex-col items-center justify-center w-full p-2 md:p-10">
-            {children}
-          </div>
+          <Outlet />
           <Footer />
         </div>
       </SidebarInset>

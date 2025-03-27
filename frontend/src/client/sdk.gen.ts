@@ -270,7 +270,7 @@ export class RecipesService {
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
-     * @returns RecipePublic Successful Response
+     * @returns unknown Successful Response
      * @throws ApiError
      */
     public static improveRecipe(data: RecipesImproveRecipeData): CancelablePromise<RecipesImproveRecipeResponse> {

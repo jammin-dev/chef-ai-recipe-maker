@@ -13,6 +13,7 @@ import { useNavigateTo } from "@/hooks/use-navigate-to";
 import { useRecipe } from "@/hooks/use-recipe";
 
 import { Recipe } from "@/interfaces";
+import { useAuth } from "@/hooks/use-auth";
 
 interface RecipeActionsProps {
   recipe: Recipe;
@@ -40,19 +41,22 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
 }) => {
   const { toHome, toRecipe } = useNavigateTo();
   const { toggleFavorite, deleteRecipe, updateRecipe, addRecipe } = useRecipe();
+  const { openLoginDialogIfGuest, isAuthenticated } = useAuth();
 
   // --- Handlers ---
   const handleDeleteRecipe = (id: string) => {
-    deleteRecipe(id);
+    if (isAuthenticated) deleteRecipe(id);
     toHome();
   };
 
   const handleUpdateRecipe = async () => {
-    if (dirtyRecipe) {
-      setRecipe(dirtyRecipe);
-      await updateRecipe(dirtyRecipe);
+    if (openLoginDialogIfGuest()) {
+      if (dirtyRecipe) {
+        setRecipe(dirtyRecipe);
+        await updateRecipe(dirtyRecipe);
+      }
+      setEdit(false);
     }
-    setEdit(false);
   };
 
   const handleUndoImprove = () => {
@@ -71,10 +75,12 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
   };
 
   const handleToggleFavorite = async () => {
-    await toggleFavorite(currentRecipe.id);
-    setCurrentRecipe((prev) =>
-      prev ? { ...prev, is_favorite: !prev.is_favorite } : prev
-    );
+    if (openLoginDialogIfGuest()) {
+      await toggleFavorite(currentRecipe.id);
+      setCurrentRecipe((prev) =>
+        prev ? { ...prev, is_favorite: !prev.is_favorite } : prev
+      );
+    }
   };
 
   // --- Action Configs ---
@@ -113,7 +119,11 @@ const RecipeActions: React.FC<RecipeActionsProps> = ({
       icon: (
         <WandSparkles strokeWidth={1.5} size={24} className="transition-all" />
       ),
-      action: () => setOpenImproveRecipeDialog(true),
+      action: () => {
+        if (openLoginDialogIfGuest()) {
+          setOpenImproveRecipeDialog(true);
+        }
+      },
     },
     {
       icon: <Pencil strokeWidth={1.5} size={24} className="transition-all" />,
