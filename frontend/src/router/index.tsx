@@ -1,56 +1,55 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import LandingPage from "@/pages/LandingPage";
+import { createBrowserRouter, Outlet } from "react-router-dom";
+
 import HomePage from "@/pages/HomePage";
-import ProtectedRoute from "./ProtectedRoute";
 import AuthLayout from "@/layouts/AuthLayout";
 import { AuthPage } from "@/pages/AuthPage";
 import AppLayout from "@/layouts/AppLayout";
 import { RecipeProvider } from "@/providers/RecipeProvider";
 import RecipePage from "@/pages/RecipePage/RecipePage";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <LandingPage />,
-  },
-  {
-    path: "/auth",
-    element: <AuthLayout />,
-    children: [
-      {
-        path: "login",
-        element: <AuthPage isLogin={true} />,
-      },
-      {
-        path: "register",
-        element: <AuthPage isRegister={true} />,
-      },
-    ],
-  },
-  {
     element: (
-      <RecipeProvider>
-        <AppLayout>
-          <ProtectedRoute />
-        </AppLayout>
-      </RecipeProvider>
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
     ),
     children: [
       {
-        index: true,
-        element: <Navigate to="home" replace />,
+        path: "/auth",
+        element: <AuthLayout />,
+        children: [
+          {
+            path: "login",
+            element: <AuthPage isLogin={true} />,
+          },
+          {
+            path: "register",
+            element: <AuthPage isRegister={true} />,
+          },
+        ],
       },
       {
-        path: "home",
-        element: <HomePage />,
-      },
-      {
-        path: "recipe/new",
-        element: <RecipePage />,
-      },
-      {
-        path: "recipe/:id",
-        element: <RecipePage />,
+        element: (
+          <RecipeProvider>
+            <AppLayout />
+          </RecipeProvider>
+        ),
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+          {
+            path: "recipe/guest",
+            element: <RecipePage />,
+          },
+          {
+            path: "recipe/:id",
+            element: <RecipePage />,
+          },
+        ],
       },
     ],
   },

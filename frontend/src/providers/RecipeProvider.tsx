@@ -11,6 +11,7 @@ import {
   RecipeUpdate,
   RecipesUpdateRecipeData,
 } from "@/client";
+import { useAuth } from "@/hooks/use-auth";
 
 // --------------------------------------
 // 1) Define the shape of our context
@@ -35,6 +36,8 @@ export function RecipeProvider({ children }: RecipeProviderProps): JSX.Element {
   const [recipes, setRecipes] = useState<RecipePublic[] | []>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const { isAuthenticated } = useAuth();
+
   // --------------------------------------
   // 3) Load recipes on mount
   // --------------------------------------
@@ -49,8 +52,7 @@ export function RecipeProvider({ children }: RecipeProviderProps): JSX.Element {
         setLoading(false);
       }
     };
-
-    fetchRecipes();
+    if (isAuthenticated) fetchRecipes();
   }, []);
 
   // --------------------------------------

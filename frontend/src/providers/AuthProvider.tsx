@@ -2,12 +2,15 @@
 import { useState, useEffect, ReactNode } from "react";
 import AuthContext from "../contexts/AuthContext";
 import { LoginService, UsersService, UserPublic } from "@/client";
+import LoginDialog from "@/components/LoginDialog";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserPublic | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false);
 
-  const isAuthenticated = !!user;
+  const isAuthenticated = Boolean(user);
+  const isGuest = !user;
 
   useEffect(() => {
     // On initial load, check if there's a token in localStorage
@@ -63,11 +66,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+  const openLoginDialogIfGuest = () => {
+    if (isGuest) {
+      setOpenLoginDialog(true);
+      return false;
+    }
+    return true;
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, loading, signIn, signUp, signOut }}
+      value={{
+        user,
+        isAuthenticated,
+        loading,
+        signIn,
+        signUp,
+        signOut,
+        openLoginDialogIfGuest,
+      }}
     >
       {children}
+      <LoginDialog open={openLoginDialog} setOpen={setOpenLoginDialog} />
     </AuthContext.Provider>
   );
 }

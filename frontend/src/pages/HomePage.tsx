@@ -15,6 +15,7 @@ import { useRecipe } from "@/hooks/use-recipe";
 import { RecipesService } from "@/client";
 
 import { promptExemples } from "@/prompt-examples";
+import { useAuth } from "@/hooks/use-auth";
 
 function HomePage(): JSX.Element {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -22,8 +23,9 @@ function HomePage(): JSX.Element {
   const [userInput, setUserInput] = useState<string>("");
 
   const { i18n, t } = useTranslation();
-  const { toRecipe } = useNavigateTo();
+  const { toRecipe, toGuestRecipe } = useNavigateTo();
   const { setRecipes } = useRecipe();
+  const { isAuthenticated } = useAuth();
 
   const lang = i18n.language || "en";
 
@@ -35,8 +37,13 @@ function HomePage(): JSX.Element {
       const newRecipe = await RecipesService.generateRecipe({
         requestBody: { user_input: userInput },
       });
-      setRecipes((recipes) => [...recipes, newRecipe]);
-      toRecipe(newRecipe.id);
+      if (isAuthenticated) {
+        setRecipes((recipes) => [...recipes, newRecipe]);
+        toRecipe(newRecipe.id);
+      } else {
+        sessionStorage.setItem("temp-recipe", JSON.stringify(newRecipe));
+        toGuestRecipe();
+      }
     } catch (err: unknown) {
       console.error(err);
       // Try to parse known Axios error shape
@@ -61,52 +68,51 @@ function HomePage(): JSX.Element {
   }, [lang]);
 
   return (
-    <div className="flex flex-col items-center gap-5 flex-grow h-full w-full">
-      <div className="flex flex-col flex-grow flex-1 w-full h-full md:min-w-md px-8">
-        <Label
-          className={`flex flex-col items-center justify-center flex-grow ${
-            isLoading ? "hidden" : ""
-          }`}
-        >
-          <TypingEffectTitle promptExamples={memorizedPromptExamples} />
-        </Label>
-        {isLoading && (
-          <Label className="flex flex-col items-center justify-center flex-grow">
-            <TypingEffectTitle
-              promptExamples={[
-                t("We're preparing your recipe!"),
-                t("Hang tight!"),
-              ]}
-            />
-          </Label>
-        )}
-        <div className="flex flex-col gap-4">
-          <Textarea
-            onChange={(e) => setUserInput(e.target.value)}
-            placeholder={t("input.placeholder.recipe_prompt")}
-            className="resize-none min-h-[100px]"
-            disabled={isLoading}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleSend();
-              }
-            }}
+    <div className="flex flex-col flex-grow flex-1 w-full h-full md:min-w-md px-8">
+      <Label
+        className={`flex flex-col items-center justify-center flex-grow ${
+          isLoading ? "hidden" : ""
+        }`}
+      >
+        <TypingEffectTitle promptExamples={memorizedPromptExamples} />
+      </Label>
+      {isLoading && (
+        <Label className="flex flex-col items-center justify-center flex-grow">
+          <TypingEffectTitle
+            promptExamples={[
+              t("We're preparing your recipe!"),
+              t("Hang tight!"),
+            ]}
           />
-          {error && (
-            <p className="text-red-500">
-              {t("an error occurred, please try again.")}
-            </p>
-          )}
-          <Button
-            className="mx-auto flex justify-center items-center gap-2"
-            onClick={handleSend}
-            disabled={isLoading}
-          >
-            {isLoading && <Loader2 className="animate-spin" />}
-            {t("send")}
-          </Button>
-        </div>
+        </Label>
+      )}
+      <div className="flex flex-col gap-4">
+        <Textarea
+          maxLength={300}
+          onChange={(e) => setUserInput(e.target.value)}
+          placeholder={t("input.placeholder.recipe_prompt")}
+          className="resize-none min-h-[100px]"
+          disabled={isLoading}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSend();
+            }
+          }}
+        />
+        {error && (
+          <p className="text-red-500">
+            {t("an error occurred, please try again.")}
+          </p>
+        )}
+        <Button
+          className="mx-auto flex justify-center items-center gap-2"
+          onClick={handleSend}
+          disabled={isLoading || !userInput}
+        >
+          {isLoading && <Loader2 className="animate-spin" />}
+          {t("send")}
+        </Button>
       </div>
     </div>
   );

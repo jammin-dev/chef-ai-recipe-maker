@@ -30,7 +30,7 @@ import { useAuth } from "@/hooks/use-auth";
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
 
   const initials = user?.email?.slice(0, 2).toUpperCase();
   return (
@@ -89,7 +89,7 @@ export function NavUser() {
             <DropdownMenuItem onClick={() => i18n.changeLanguage("en")}>
               🇬🇧{"  "}English
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={signOut}>
               <LogOut />
               {t("Log out")}
             </DropdownMenuItem>

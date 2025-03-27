@@ -1,8 +1,6 @@
 // src/contexts/AuthContext.tsx
 import { UserPublic } from "@/client";
 import { createContext } from "react";
-// If you have an endpoint to fetch user details, import it here, e.g.
-// import { fetchMe } from '@/api/auth'
 
 interface AuthContextValue {
   user: UserPublic | null;
@@ -11,6 +9,7 @@ interface AuthContextValue {
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signOut: () => void;
+  openLoginDialogIfGuest: () => boolean;
 }
 
 // Create the context with default values
@@ -21,6 +20,7 @@ const AuthContext = createContext<AuthContextValue>({
   signIn: async () => {},
   signUp: async () => {},
   signOut: () => {},
+  openLoginDialogIfGuest: () => false,
 });
 
 export default AuthContext;
