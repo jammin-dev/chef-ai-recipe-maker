@@ -4,11 +4,12 @@ import uuid
 import requests
 from typing import Any, Annotated
 
-from fastapi import Body, APIRouter, HTTPException
+from fastapi import Body, APIRouter, HTTPException, Request
 from sqlmodel import func, select, delete
 
 from app.api.deps import CurrentUser, SessionDep
 from app.core.config import settings
+from app.core.rate_limit import limiter
 from app.models import (
     Direction,
     DirectionCreate,
@@ -256,8 +257,10 @@ def build_prompt(user_input: str) -> str:
 
 # To apply rate limite https://chatgpt.com/c/67e587c2-a084-8003-a59e-84f0c7329d6b
 @router.post("/generate", response_model=RecipePublic)
+@limiter.limit("100/day")
 def generate_recipe(
     *,
+    request: Request,
     session: SessionDep,
     user_input: str = Body(..., embed=True)
 ) -> RecipePublic:
