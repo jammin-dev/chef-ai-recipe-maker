@@ -27,7 +27,8 @@ function HomePage(): JSX.Element {
   const { setRecipes } = useRecipe();
   const { isAuthenticated } = useAuth();
 
-  const lang = i18n.language || "en";
+  const rawLang = i18n.language;
+  const lang: "en" | "fr" = rawLang === "fr" ? "fr" : "en";
 
   const handleSend = async (): Promise<void> => {
     setIsLoading(true);
@@ -64,9 +65,7 @@ function HomePage(): JSX.Element {
   };
 
   const memorizedPromptExamples = useMemo(() => {
-    if (promptExemples) {
-      return promptExemples[lang].slice().sort(() => Math.random() - 0.5);
-    }
+    return promptExemples[lang].slice().sort(() => Math.random() - 0.5);
   }, [lang]);
 
   return (
