@@ -64,7 +64,9 @@ function HomePage(): JSX.Element {
   };
 
   const memorizedPromptExamples = useMemo(() => {
-    return promptExemples[lang].slice().sort(() => Math.random() - 0.5);
+    return (promptExemples?.[lang] || [])
+      .slice()
+      .sort(() => Math.random() - 0.5);
   }, [lang]);
 
   return (

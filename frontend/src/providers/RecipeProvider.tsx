@@ -53,7 +53,7 @@ export function RecipeProvider({ children }: RecipeProviderProps): JSX.Element {
       }
     };
     if (isAuthenticated) fetchRecipes();
-  }, []);
+  }, [isAuthenticated]);
 
   // --------------------------------------
   // 5) Context methods
