@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 
 import HomePage from "@/pages/HomePage";
 import AuthLayout from "@/layouts/AuthLayout";
@@ -48,6 +48,10 @@ const router = createBrowserRouter([
           {
             path: "recipe/:id",
             element: <RecipePage />,
+          },
+          {
+            path: "*",
+            element: <Navigate to="/" replace />,
           },
         ],
       },
