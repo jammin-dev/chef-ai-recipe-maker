@@ -5,7 +5,7 @@ import requests
 from typing import Any, Annotated
 
 from fastapi import Body, APIRouter, HTTPException, Request
-from sqlmodel import func, select, delete
+from sqlmodel import func, select, delete, Session
 
 from app.api.deps import CurrentUser, SessionDep
 from app.core.config import settings
@@ -255,10 +255,78 @@ def build_prompt(user_input: str) -> str:
         Renvoyez uniquement le JSON sans aucun texte additionnel.
     """
 
-# To apply rate limite https://chatgpt.com/c/67e587c2-a084-8003-a59e-84f0c7329d6b
-@router.post("/generate", response_model=RecipePublic)
+def create_recipe_from_ai(current_user: User, final_prompt: str, session: Session):
+        # Build the OpenAI payload with the adapted prompt
+        payload = {
+            "model": "gpt-4o-mini",
+            "messages": [
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": final_prompt},
+            ],
+        }
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {OPENAI_API_KEY}",
+        }
+        
+        # 2. Call the OpenAI API
+        response = requests.post(OPENAI_URL, json=payload, headers=headers)
+        if response.status_code != 200:
+            raise HTTPException(status_code=500, detail="OpenAI API call failed")
+        
+        data = response.json()
+        ai_response = data["choices"][0]["message"]["content"].strip()
+        
+        # 3. Clean and parse the JSON from the AI response
+        cleaned_response = ai_response.replace("```json", "").replace("```", "")
+        try:
+            recipe_data = json.loads(cleaned_response)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail="Failed to parse recipe JSON from OpenAI")
+        
+        # 4. Validate and create a RecipeCreate instance
+        try:
+            recipe_create = RecipeCreate(**recipe_data)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail="Invalid recipe data format")
+        
+        # 5. Use the same logic as in your create_recipe endpoint to store the recipe.
+        # Exclude nested lists not present in the DB model.
+        recipe_in_dict = recipe_create.model_dump(exclude={"ingredients", "directions"})
+        recipe = Recipe.model_validate(recipe_in_dict, update={"user_id": current_user.id})
+        
+        try:
+            session.add(recipe)
+            session.commit()
+            session.refresh(recipe)
+            
+            # Add ingredients if any
+            if recipe_create.ingredients:
+                for ingredient_in in recipe_create.ingredients:
+                    ingredient = Ingredient.model_validate(
+                        ingredient_in, update={"recipe_id": recipe.id}
+                    )
+                    session.add(ingredient)
+            
+            # Add directions if any
+            if recipe_create.directions:
+                for direction_in in recipe_create.directions:
+                    direction = Direction.model_validate(
+                        direction_in, update={"recipe_id": recipe.id}
+                    )
+                    session.add(direction)
+            
+            session.commit()  # Commit all inserts together
+            session.refresh(recipe)
+            return recipe
+        
+        except Exception as e:
+            session.rollback()
+            raise HTTPException(status_code=500, detail=f"Recipe creation failed: {str(e)}")
+
+@router.post("/generate-public", response_model=RecipePublic)
 @limiter.limit("100/day")
-def generate_recipe(
+def generate_recipe_public(
     *,
     request: Request,
     session: SessionDep,
@@ -272,76 +340,25 @@ def generate_recipe(
     """
     stmt = select(User).where(User.email == "guest@jammin-dev.com")
     current_user = session.exec(stmt).first()
-    # Use the build_prompt function to construct the detailed prompt
     final_prompt = build_prompt(user_input)
-    
-    # Build the OpenAI payload with the adapted prompt
-    payload = {
-        "model": "gpt-4o-mini",
-        "messages": [
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": final_prompt},
-        ],
-    }
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {OPENAI_API_KEY}",
-    }
-    
-    # 2. Call the OpenAI API
-    response = requests.post(OPENAI_URL, json=payload, headers=headers)
-    if response.status_code != 200:
-        raise HTTPException(status_code=500, detail="OpenAI API call failed")
-    
-    data = response.json()
-    ai_response = data["choices"][0]["message"]["content"].strip()
-    
-    # 3. Clean and parse the JSON from the AI response
-    cleaned_response = ai_response.replace("```json", "").replace("```", "")
-    try:
-        recipe_data = json.loads(cleaned_response)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail="Failed to parse recipe JSON from OpenAI")
-    
-    # 4. Validate and create a RecipeCreate instance
-    try:
-        recipe_create = RecipeCreate(**recipe_data)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail="Invalid recipe data format")
-    
-    # 5. Use the same logic as in your create_recipe endpoint to store the recipe.
-    # Exclude nested lists not present in the DB model.
-    recipe_in_dict = recipe_create.model_dump(exclude={"ingredients", "directions"})
-    recipe = Recipe.model_validate(recipe_in_dict, update={"user_id": current_user.id})
-    
-    try:
-        session.add(recipe)
-        session.commit()
-        session.refresh(recipe)
-        
-        # Add ingredients if any
-        if recipe_create.ingredients:
-            for ingredient_in in recipe_create.ingredients:
-                ingredient = Ingredient.model_validate(
-                    ingredient_in, update={"recipe_id": recipe.id}
-                )
-                session.add(ingredient)
-        
-        # Add directions if any
-        if recipe_create.directions:
-            for direction_in in recipe_create.directions:
-                direction = Direction.model_validate(
-                    direction_in, update={"recipe_id": recipe.id}
-                )
-                session.add(direction)
-        
-        session.commit()  # Commit all inserts together
-        session.refresh(recipe)
-        return recipe
-    
-    except Exception as e:
-        session.rollback()
-        raise HTTPException(status_code=500, detail=f"Recipe creation failed: {str(e)}")
+    return create_recipe_from_ai(current_user, final_prompt, session)
+
+
+@router.post("/generate", response_model=RecipePublic)
+def generate_recipe(
+    *,
+    session: SessionDep,
+    user_input: str = Body(..., embed=True),
+    current_user: CurrentUser
+) -> RecipePublic:
+    """
+    Generate a recipe using OpenAI and create it in the DB.
+    The frontend sends a prompt; the backend calls OpenAI,
+    parses the JSON, creates the recipe using the same logic as create_recipe,
+    and returns a RecipePublic.
+    """
+    final_prompt = build_prompt(user_input)
+    return create_recipe_from_ai(current_user, final_prompt, session)
 
 
 def build_improvement_prompt(user_input: str, original_recipe: Recipe) -> str:
