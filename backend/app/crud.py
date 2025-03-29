@@ -9,7 +9,7 @@ from app.models import User, UserCreate, UserUpdate
 
 def create_user(*, session: Session, user_create: UserCreate) -> User:
     db_obj = User.model_validate(
-        user_create, update={"hashed_password": get_password_hash(user_create.password)}
+        user_create, update={"hashed_password": get_password_hash(user_create.password), "is_active": True}
     )
     session.add(db_obj)
     session.commit()

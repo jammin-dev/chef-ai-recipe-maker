@@ -2,17 +2,17 @@ import { Search } from "lucide-react";
 
 import { NavUser } from "@/components/app-sidebar/nav-user";
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
+	Sidebar,
+	SidebarContent,
+	SidebarFooter,
+	SidebarGroup,
+	SidebarGroupContent,
+	SidebarGroupLabel,
+	SidebarHeader,
+	SidebarMenu,
+	SidebarMenuButton,
+	SidebarMenuItem,
+	useSidebar,
 } from "@/components/ui/sidebar";
 import { Input } from "../ui/input";
 import { useRecipe } from "@/hooks/use-recipe";
@@ -24,114 +24,111 @@ import RecipeItem from "./recipe-item";
 import { useTranslation } from "react-i18next";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [result, setResult] = useState(null);
+	const [result, setResult] = useState(null);
 
-  const { toRecipe } = useNavigateTo();
-  const { toggleSidebar } = useSidebar();
-  const { recipes, deleteRecipe } = useRecipe();
-  const isMobile = useIsMobile();
+	const { toRecipe } = useNavigateTo();
+	const { toggleSidebar } = useSidebar();
+	const { recipes, deleteRecipe } = useRecipe();
+	const isMobile = useIsMobile();
 
-  const { t } = useTranslation();
+	const { t } = useTranslation();
 
-  const handleFilterRecipe = (e) => {
-    if (e.target.value.length === 0) {
-      setResult(null);
-      return;
-    }
-    const filteredRecipes = recipes?.filter((recipe) =>
-      recipe.title.toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setResult(filteredRecipes);
-  };
+	const handleFilterRecipe = (e) => {
+		if (e.target.value.length === 0) {
+			setResult(null);
+			return;
+		}
+		const filteredRecipes = recipes?.filter((recipe) =>
+			recipe.title.toLowerCase().includes(e.target.value.toLowerCase()),
+		);
+		setResult(filteredRecipes);
+	};
 
-  const onClickRecipe = (id) => {
-    toRecipe(id);
-    if (isMobile) {
-      toggleSidebar();
-    }
-  };
+	const onClickRecipe = (id) => {
+		toRecipe(id);
+		if (isMobile) {
+			toggleSidebar();
+		}
+	};
 
-  return (
-    <Sidebar variant="inset" {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <div className="flex items-center gap-2">
-              <Search />
-              <Input
-                placeholder={t("Search")}
-                onChange={(e) => handleFilterRecipe(e)}
-              />
-            </div>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <SidebarContent>
-        {result ? (
-          <SidebarGroup>
-            <SidebarGroupLabel>{t("Results")}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {result.map((recipe) => (
-                  <RecipeItem
-                    key={recipe.id}
-                    recipe={recipe}
-                    onClickRecipe={onClickRecipe}
-                    deleteRecipe={deleteRecipe}
-                    isMobile={isMobile}
-                  />
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ) : (
-          <>
-            <SidebarGroup>
-              <SidebarGroupLabel>{t("Recently saved")}</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {recipes.map((recipe) => (
-                    <RecipeItem
-                      key={recipe.id}
-                      recipe={recipe}
-                      onClickRecipe={onClickRecipe}
-                      deleteRecipe={deleteRecipe}
-                      isMobile={isMobile}
-                    />
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-            <Separator />
-            <SidebarGroup>
-              <SidebarGroupLabel>{t("Favorites")}</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {recipes.map((recipe) => {
-                    if (!recipe.is_favorite) return null;
-                    return (
-                      <RecipeItem
-                        key={recipe.id}
-                        recipe={recipe}
-                        onClickRecipe={onClickRecipe}
-                        deleteRecipe={deleteRecipe}
-                        isMobile={isMobile}
-                      />
-                    );
-                  })}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </>
-        )}
+	return (
+		<Sidebar variant="inset" {...props}>
+			<SidebarHeader>
+				<SidebarMenu>
+					<SidebarMenuItem>
+						<div className="flex items-center gap-2">
+							<Search />
+							<Input
+								placeholder={t("Search")}
+								onChange={(e) => handleFilterRecipe(e)}
+							/>
+						</div>
+					</SidebarMenuItem>
+				</SidebarMenu>
+			</SidebarHeader>
+			<SidebarContent>
+				{result ? (
+					<SidebarGroup>
+						<SidebarGroupLabel>{t("Results")}</SidebarGroupLabel>
+						<SidebarGroupContent>
+							<SidebarMenu>
+								{result.map((recipe) => (
+									<RecipeItem
+										key={recipe.id}
+										recipe={recipe}
+										onClickRecipe={onClickRecipe}
+										deleteRecipe={deleteRecipe}
+										isMobile={isMobile}
+									/>
+								))}
+							</SidebarMenu>
+						</SidebarGroupContent>
+					</SidebarGroup>
+				) : (
+					<>
+						<SidebarGroup>
+							<SidebarGroupLabel>{t("Recently saved")}</SidebarGroupLabel>
+							<SidebarGroupContent>
+								<SidebarMenu>
+									{recipes.map((recipe) => (
+										<RecipeItem
+											key={recipe.id}
+											recipe={recipe}
+											onClickRecipe={onClickRecipe}
+											deleteRecipe={deleteRecipe}
+											isMobile={isMobile}
+										/>
+									))}
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+						<Separator />
+						<SidebarGroup>
+							<SidebarGroupLabel>{t("Favorites")}</SidebarGroupLabel>
+							<SidebarGroupContent>
+								<SidebarMenu>
+									{recipes.map((recipe) => {
+										if (!recipe.is_favorite) return null;
+										return (
+											<RecipeItem
+												key={recipe.id}
+												recipe={recipe}
+												onClickRecipe={onClickRecipe}
+												deleteRecipe={deleteRecipe}
+												isMobile={isMobile}
+											/>
+										);
+									})}
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+					</>
+				)}
 
-        {/* <NavMain items={data.navMain} /> */}
-        {/* <NavProjects projects={data.projects} /> */}
-        {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser />
-      </SidebarFooter>
-    </Sidebar>
-  );
+				{/* <NavMain items={data.navMain} /> */}
+				{/* <NavProjects projects={data.projects} /> */}
+				{/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
+			</SidebarContent>
+		</Sidebar>
+	);
 }
