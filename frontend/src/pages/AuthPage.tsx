@@ -11,273 +11,275 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 import {
-  Form,
-  FormField,
-  FormItem,
-  FormControl,
-  FormLabel,
-  FormMessage,
+	Form,
+	FormField,
+	FormItem,
+	FormControl,
+	FormLabel,
+	FormMessage,
 } from "@/components/ui/form";
 import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogAction,
+	AlertDialog,
+	AlertDialogContent,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 
 import { useAuth } from "@/hooks/use-auth";
 import { useNavigateTo } from "@/hooks/use-navigate-to";
+import TermsOfServiceSentance from "@/components/terms-of-service-sentance";
+import { useTranslation } from "react-i18next";
 // import type { UserRegister } from "@/client"; // If you have a specific Type for registration
 
 interface AuthPageProps extends React.ComponentProps<"div"> {
-  isLogin?: boolean;
-  isRegister?: boolean;
+	isLogin?: boolean;
+	isRegister?: boolean;
 }
 
 // 1) Define separate schemas for Login and Register
 const loginSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters" }),
+	email: z.string().email({ message: "Invalid email address" }),
+	password: z
+		.string()
+		.min(6, { message: "Password must be at least 6 characters" }),
 });
 
 const registerSchema = z
-  .object({
-    email: z.string().email({ message: "Invalid email address" }),
-    password: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
-    confirmPassword: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Passwords do not match",
-  });
+	.object({
+		email: z.string().email({ message: "Invalid email address" }),
+		password: z
+			.string()
+			.min(6, { message: "Password must be at least 6 characters" }),
+		confirmPassword: z
+			.string()
+			.min(6, { message: "Password must be at least 6 characters" }),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		path: ["confirmPassword"],
+		message: "Passwords do not match",
+	});
 
 export function AuthPage({
-  className,
-  isLogin,
-  isRegister,
-  ...props
+	className,
+	isLogin,
+	isRegister,
+	...props
 }: AuthPageProps) {
-  // 2) Hooks for location and navigation
-  const location = useLocation();
-  const { signIn, signUp } = useAuth();
-  const { toHome, toLogin } = useNavigateTo();
+	// 2) Hooks for location and navigation
+	const location = useLocation();
+	const { signIn, signUp } = useAuth();
+	const { toHome, toLogin } = useNavigateTo();
+	const { t } = useTranslation();
 
-  // 3) Registration success dialog state
-  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+	// 3) Registration success dialog state
+	const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
-  // 4) Decide which schema to use
-  const activeSchema = isRegister ? registerSchema : loginSchema;
+	// 4) Decide which schema to use
+	const activeSchema = isRegister ? registerSchema : loginSchema;
 
-  // 5) Initialize form with `react-hook-form` & Zod
-  const form = useForm<z.infer<typeof activeSchema>>({
-    resolver: zodResolver(activeSchema),
-    defaultValues: {
-      email: (location.state as { email?: string })?.email || "",
-      password: "",
-      // confirmPassword will exist but is only relevant for isRegister
-      confirmPassword: "",
-    },
-  });
+	// 5) Initialize form with `react-hook-form` & Zod
+	const form = useForm<z.infer<typeof activeSchema>>({
+		resolver: zodResolver(activeSchema),
+		defaultValues: {
+			email: (location.state as { email?: string })?.email || "",
+			password: "",
+			// confirmPassword will exist but is only relevant for isRegister
+			confirmPassword: "",
+		},
+	});
 
-  // 6) Submission handler
-  const onSubmit = async (values: z.infer<typeof activeSchema>) => {
-    if (isLogin) {
-      // Handle LOGIN
-      try {
-        await signIn(values.email, values.password);
-        toHome(); // e.g., navigate to dashboard
-      } catch (error) {
-        console.error("Login failed:", error);
-        form.setError("email", {
-          message: "Login failed. Please check your credentials.",
-        });
-      }
-    } else if (isRegister) {
-      // Handle REGISTER
-      try {
-        // signUp might require just email/password
-        await signUp(values.email, values.password);
-        setShowSuccessDialog(true);
-      } catch (error) {
-        console.error("Registration failed:", error);
-        form.setError("email", {
-          message: "Registration failed. Please try again.",
-        });
-      }
-    }
-  };
+	// 6) Submission handler
+	const onSubmit = async (values: z.infer<typeof activeSchema>) => {
+		if (isLogin) {
+			// Handle LOGIN
+			try {
+				await signIn(values.email, values.password);
+				toHome(); // e.g., navigate to dashboard
+			} catch (error) {
+				console.error("Login failed:", error);
+				form.setError("email", {
+					message: "Login failed. Please check your credentials.",
+				});
+			}
+		} else if (isRegister) {
+			// Handle REGISTER
+			try {
+				// signUp might require just email/password
+				await signUp(values.email, values.password);
+				setShowSuccessDialog(true);
+			} catch (error) {
+				console.error("Registration failed:", error);
+				form.setError("email", {
+					message: "Registration failed. Please try again.",
+				});
+			}
+		}
+	};
 
-  return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden p-0 md:min-w-3xl">
-        <CardContent className="grid p-0 md:grid-cols-2 md:min-h-[500px]">
-          {/** 7) Replace the plain <form> with <Form> + react-hook-form */}
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 md:p-8">
-              <div className="flex flex-col gap-5">
-                {/* Title & Subtitle */}
-                <div className="flex flex-col items-center text-center">
-                  <h1 className="text-2xl font-bold">
-                    {`Welcome${isLogin ? " back" : ""}`}
-                  </h1>
-                  <p className="text-muted-foreground text-balance">
-                    {isLogin
-                      ? "Login to your Chef! account"
-                      : "Create a Chef! account"}
-                  </p>
-                </div>
+	return (
+		<div className={cn("flex flex-col gap-6", className)} {...props}>
+			<Card className="overflow-hidden p-0 md:min-w-3xl">
+				<CardContent className="grid p-0 md:grid-cols-2 md:min-h-[500px]">
+					{/** 7) Replace the plain <form> with <Form> + react-hook-form */}
+					<Form {...form}>
+						<form onSubmit={form.handleSubmit(onSubmit)} className="p-6 md:p-8">
+							<div className="flex flex-col gap-5">
+								{/* Title & Subtitle */}
+								<div className="flex flex-col items-center text-center">
+									<h1 className="text-2xl font-bold">
+										{`Welcome${isLogin ? " back" : ""}`}
+									</h1>
+									<p className="text-muted-foreground text-balance">
+										{isLogin
+											? "Login to your Chef! account"
+											: "Create a Chef! account"}
+									</p>
+								</div>
 
-                {/* Email Field */}
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="john.doe@example.com"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+								{/* Email Field */}
+								<FormField
+									control={form.control}
+									name="email"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Email</FormLabel>
+											<FormControl>
+												<Input
+													id="email"
+													type="email"
+													placeholder="john.doe@example.com"
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
 
-                {/* Password Field */}
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="flex items-center">
-                        <FormLabel>Password</FormLabel>
-                        {isLogin && (
-                          <a
-                            href="#"
-                            className="ml-auto text-sm underline-offset-2 hover:underline"
-                          >
-                            Forgot your password?
-                          </a>
-                        )}
-                      </div>
-                      <FormControl>
-                        <Input
-                          id="password"
-                          type="password"
-                          placeholder="••••••••"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+								{/* Password Field */}
+								<FormField
+									control={form.control}
+									name="password"
+									render={({ field }) => (
+										<FormItem>
+											<div className="flex items-center">
+												<FormLabel>Password</FormLabel>
+												{isLogin && (
+													<a
+														href="#"
+														className="ml-auto text-sm underline-offset-2 hover:underline"
+													>
+														Forgot your password?
+													</a>
+												)}
+											</div>
+											<FormControl>
+												<Input
+													id="password"
+													type="password"
+													placeholder="••••••••"
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
 
-                {/* Confirm Password ONLY if register */}
-                {isRegister && (
-                  <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <div className="flex items-center">
-                          <FormLabel>Confirm Password</FormLabel>
-                        </div>
-                        <FormControl>
-                          <Input
-                            id="confirm-password"
-                            type="password"
-                            placeholder="••••••••"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                )}
+								{/* Confirm Password ONLY if register */}
+								{isRegister && (
+									<FormField
+										control={form.control}
+										name="confirmPassword"
+										render={({ field }) => (
+											<FormItem>
+												<div className="flex items-center">
+													<FormLabel>Confirm Password</FormLabel>
+												</div>
+												<FormControl>
+													<Input
+														id="confirm-password"
+														type="password"
+														placeholder="••••••••"
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								)}
 
-                {/* Submit Button */}
-                <Button type="submit" className="w-full">
-                  {isLogin ? "Login" : "Sign Up"}
-                </Button>
+								{/* Submit Button */}
+								<Button type="submit" className="w-full">
+									{isLogin ? "Login" : "Sign Up"}
+								</Button>
 
-                {/* Toggle Login/Register */}
-                <div className="text-center text-sm">
-                  {isLogin
-                    ? "Don't have an account?"
-                    : "Already have an account?"}{" "}
-                  <Link
-                    to={isLogin ? "/auth/register" : "/auth/login"}
-                    className="underline underline-offset-4"
-                  >
-                    {isLogin ? "Sign up" : "Sign in"}
-                  </Link>
-                </div>
-              </div>
-            </form>
-          </Form>
+								{/* Toggle Login/Register */}
+								<div className="text-center text-sm">
+									{isLogin
+										? "Don't have an account?"
+										: "Already have an account?"}{" "}
+									<Link
+										to={isLogin ? "/auth/register" : "/auth/login"}
+										className="underline underline-offset-4"
+									>
+										{isLogin ? "Sign up" : "Sign in"}
+									</Link>
+								</div>
+							</div>
+						</form>
+					</Form>
 
-          {/* Cover Image */}
-          <div className="bg-muted relative hidden md:block">
-            <img
-              src={coverImg}
-              alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.8]"
-            />
-          </div>
-        </CardContent>
-      </Card>
+					{/* Cover Image */}
+					<div className="bg-muted relative hidden md:block">
+						<img
+							src={coverImg}
+							alt="Image"
+							className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.8]"
+						/>
+					</div>
+				</CardContent>
+			</Card>
 
-      {/* Terms of Service */}
-      <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By logging in or signing up, you accept our{" "}
-        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
-      </div>
+			{/* Terms of Service */}
+			<TermsOfServiceSentance>
+				{t("By logging in or signing up")}
+			</TermsOfServiceSentance>
 
-      {/* Success Dialog for Registration */}
-      {isRegister && showSuccessDialog && (
-        <AlertDialog
-          open={showSuccessDialog}
-          onOpenChange={setShowSuccessDialog}
-        >
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Registration Successful</AlertDialogTitle>
-              <AlertDialogDescription className="flex flex-col items-center gap-4">
-                You can now log in using the verification code sent to your
-                email.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogAction
-                onClick={() => {
-                  setShowSuccessDialog(false);
-                  // Pre-fill the email in login screen if you want:
-                  toLogin(form.getValues("email"));
-                }}
-              >
-                OK
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      )}
-    </div>
-  );
+			{/* Success Dialog for Registration */}
+			{isRegister && showSuccessDialog && (
+				<AlertDialog
+					open={showSuccessDialog}
+					onOpenChange={setShowSuccessDialog}
+				>
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>Registration Successful</AlertDialogTitle>
+							<AlertDialogDescription className="flex flex-col items-center gap-4">
+								You can now log in using the verification code sent to your
+								email.
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogAction
+								onClick={() => {
+									setShowSuccessDialog(false);
+									// Pre-fill the email in login screen if you want:
+									toLogin(form.getValues("email"));
+								}}
+							>
+								OK
+							</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
+			)}
+		</div>
+	);
 }
 
 // OAuth Login Button

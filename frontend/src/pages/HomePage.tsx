@@ -16,6 +16,7 @@ import { RecipesService } from "@/client";
 
 import { promptExemples } from "@/prompt-examples";
 import { useAuth } from "@/hooks/use-auth";
+import TermsOfServiceSentance from "@/components/terms-of-service-sentance";
 
 function HomePage(): JSX.Element {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -118,6 +119,9 @@ function HomePage(): JSX.Element {
 					{isLoading && <Loader2 className="animate-spin" />}
 					{t("send")}
 				</Button>
+				<TermsOfServiceSentance>
+					{t("By using this app")}
+				</TermsOfServiceSentance>
 			</div>
 		</div>
 	);
