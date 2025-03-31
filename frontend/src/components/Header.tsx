@@ -42,14 +42,10 @@ const Header = () => {
 						<SquarePen size={22} className="transition-all" />
 					</Button>
 					<ModeToggle />
-					{!isAuthenticated ? (
-						<Button variant="outline" size="icon" onClick={() => toLogin()}>
-							<User size={22} className="transition-all" />
-						</Button>
-					) : (
+					{isAuthenticated ? (
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
-								<Button variant="outline" size="icon" onClick={() => toLogin()}>
+								<Button variant="outline" size="icon" className="bg-teal-400">
 									<User size={22} className="transition-all" />
 								</Button>
 							</DropdownMenuTrigger>
@@ -93,6 +89,10 @@ const Header = () => {
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>
+					) : (
+						<Button variant="outline" size="icon" onClick={() => toLogin()}>
+							<User size={22} className="transition-all" />
+						</Button>
 					)}
 				</div>
 			</div>
