@@ -88,7 +88,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 					<>
 						{recipes.filter((r) => r.is_favorite).length > 0 && (
 							<>
-								<Separator />
 								<SidebarGroup>
 									<SidebarGroupLabel>{t("Favorites")}</SidebarGroupLabel>
 									<SidebarGroupContent>
@@ -108,30 +107,31 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 										</SidebarMenu>
 									</SidebarGroupContent>
 								</SidebarGroup>
-								<SidebarGroup>
-									<SidebarGroupLabel>{t("Recently saved")}</SidebarGroupLabel>
-									<SidebarGroupContent>
-										<SidebarMenu>
-											{recipes.length === 0 ? (
-												<p className="text-sm text-muted-foreground px-4 py-2">
-													{t("No recipe yet")}
-												</p>
-											) : (
-												recipes.map((recipe) => (
-													<RecipeItem
-														key={recipe.id}
-														recipe={recipe}
-														onClickRecipe={onClickRecipe}
-														deleteRecipe={deleteRecipe}
-														isMobile={isMobile}
-													/>
-												))
-											)}
-										</SidebarMenu>
-									</SidebarGroupContent>
-								</SidebarGroup>
+								<Separator />
 							</>
 						)}
+						<SidebarGroup>
+							<SidebarGroupLabel>{t("Recently saved")}</SidebarGroupLabel>
+							<SidebarGroupContent>
+								<SidebarMenu>
+									{recipes.length === 0 ? (
+										<p className="text-sm text-muted-foreground px-4 py-2">
+											{t("No recipe yet")}
+										</p>
+									) : (
+										recipes.map((recipe) => (
+											<RecipeItem
+												key={recipe.id}
+												recipe={recipe}
+												onClickRecipe={onClickRecipe}
+												deleteRecipe={deleteRecipe}
+												isMobile={isMobile}
+											/>
+										))
+									)}
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
 					</>
 				)}
 
