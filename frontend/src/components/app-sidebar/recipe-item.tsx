@@ -22,12 +22,11 @@ const RecipeItem = ({
 	return (
 		<SidebarMenuItem key={recipe.id}>
 			<SidebarMenuButton
-				asChild
 				onClick={() => onClickRecipe(recipe.id)}
 				className="cursor-pointer"
 				tooltip={tooltip}
 			>
-				<span className="text-nowrap text-ellipsis whitespace-nowrap">
+				<span className="block max-w-full overflow-hidden whitespace-nowrap text-ellipsis">
 					{recipe.title}
 				</span>
 			</SidebarMenuButton>

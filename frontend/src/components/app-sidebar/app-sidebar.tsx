@@ -53,7 +53,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
 	return (
 		<Sidebar variant="inset" {...props}>
-			<SidebarHeader>
+			<SidebarHeader className="mt-5">
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<div className="flex items-center gap-2">
