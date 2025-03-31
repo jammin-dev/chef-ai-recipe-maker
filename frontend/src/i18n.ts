@@ -6,11 +6,6 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import en from "@/locales/en.json";
 import fr from "@/locales/fr.json";
 
-const baseLang = localStorage.getItem("i18nextLng")?.split("-")[0];
-if (baseLang) {
-	localStorage.setItem("i18nextLng", baseLang);
-}
-
 i18n
 	.use(LanguageDetector)
 	.use(initReactI18next)

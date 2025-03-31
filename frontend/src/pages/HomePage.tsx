@@ -28,8 +28,7 @@ function HomePage(): JSX.Element {
 	const { setRecipes } = useRecipe();
 	const { isAuthenticated } = useAuth();
 
-	const rawLang = i18n.language;
-	const lang: "en" | "fr" = rawLang === "fr" ? "fr" : "en";
+	const lang = i18n.language.slice(0, 2) as "en" | "fr";
 
 	const handleSend = async (): Promise<void> => {
 		setIsLoading(true);
