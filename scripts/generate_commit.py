@@ -89,7 +89,7 @@ def get_diff(base="HEAD", staged=True):
     result = subprocess.run(args, capture_output=True, text=True)
     return result.stdout
 #
-def generate_commit_message(diff):
+def generate_commit_message(user_input, diff):
     gitmoji_examples = "\n".join(
         [f"- {key}: {value}" for key, value in gitmoji.items()]
     )
@@ -106,6 +106,11 @@ def generate_commit_message(diff):
     🐛 Fix a bug
     🚑️ Critical hotfix
     ✨ Introduce new features
+
+    ---
+
+    User explanation:
+    {user_input}
     
     Git diff:
     {diff}
@@ -120,13 +125,15 @@ def generate_commit_message(diff):
     return response.output_text.strip()
 
 def main():
+    user_input = input("📝 Describe the commit you're making (in plain language):\n> ")
+
     staged_diff = get_diff(staged=True)
     if not staged_diff.strip():
-        print("No staged changes found. Use `git add` to stage your changes.")
+        print("⚠️ No staged changes found. Use `git add` to stage your changes.")
         return
 
-    commit_message = generate_commit_message(staged_diff)
-    print(f"\nSuggested commit message:\n{commit_message}")
+    commit_message = generate_commit_message(user_input, staged_diff)
+    print(f"\n✅ Suggested commit message:\n{commit_message}")
 
 if __name__ == "__main__":
     main()
