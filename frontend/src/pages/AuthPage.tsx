@@ -32,6 +32,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useNavigateTo } from "@/hooks/use-navigate-to";
 import TermsOfServiceSentance from "@/components/terms-of-service-sentance";
 import { useTranslation } from "react-i18next";
+import { Loader2 } from "lucide-react";
 // import type { UserRegister } from "@/client"; // If you have a specific Type for registration
 
 interface AuthPageProps extends React.ComponentProps<"div"> {
@@ -70,7 +71,7 @@ export function AuthPage({
 }: AuthPageProps) {
 	// 2) Hooks for location and navigation
 	const location = useLocation();
-	const { signIn, signUp } = useAuth();
+	const { signIn, signUp, loading } = useAuth();
 	const { toHome, toLogin } = useNavigateTo();
 	const { t } = useTranslation();
 
@@ -169,7 +170,7 @@ export function AuthPage({
 												<FormLabel>Password</FormLabel>
 												{isLogin && (
 													<a
-														href="#"
+														href="/"
 														className="ml-auto text-sm underline-offset-2 hover:underline"
 													>
 														Forgot your password?
@@ -177,12 +178,7 @@ export function AuthPage({
 												)}
 											</div>
 											<FormControl>
-												<Input
-													id="password"
-													type="password"
-													placeholder="••••••••"
-													{...field}
-												/>
+												<Input id="password" type="password" {...field} />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -203,7 +199,6 @@ export function AuthPage({
 													<Input
 														id="confirm-password"
 														type="password"
-														placeholder="••••••••"
 														{...field}
 													/>
 												</FormControl>
@@ -214,7 +209,8 @@ export function AuthPage({
 								)}
 
 								{/* Submit Button */}
-								<Button type="submit" className="w-full">
+								<Button type="submit" className="w-full" disabled={loading}>
+									{loading && <Loader2 className="animate-spin" />}
 									{isLogin ? "Login" : "Sign Up"}
 								</Button>
 
@@ -238,7 +234,7 @@ export function AuthPage({
 					<div className="bg-muted relative hidden md:block">
 						<img
 							src={coverImg}
-							alt="Image"
+							alt="Cover iamge"
 							className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.8]"
 						/>
 					</div>
