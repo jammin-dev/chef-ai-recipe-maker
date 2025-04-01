@@ -1,0 +1,55 @@
+Privacy Policy
+
+Effective Date: April 1, 2025
+
+Welcome to Chef! ("Service"). This Privacy Policy explains how we collect, use, and protect your personal information when you use our Service.
+
+1. Information We Collect
+
+Personal Information: When registering or using our Service, we may collect information such as your name, email address, and dietary preferences.
+
+Usage Data: We collect anonymous usage data such as your interactions with our Service and the type of device and browser you use.
+
+2. How We Use Your Information
+
+We use your information to:
+
+Provide, operate, and improve our Service.
+
+Personalize your user experience by generating recipes based on your preferences.
+
+Respond to your inquiries and support requests.
+
+3. Sharing of Information
+
+We do not sell, trade, or otherwise transfer your personal information to third parties. We may share aggregated, anonymized information for analysis and improvement of the Service.
+
+4. Data Security
+
+We implement industry-standard security measures to protect your personal data from unauthorized access, disclosure, alteration, or destruction. However, no method of online transmission or storage is entirely secure.
+
+5. Cookies
+
+Chef! may use cookies and similar tracking technologies to enhance your experience, track usage patterns, and collect statistical information.
+
+6. Third-Party Services
+
+Our Service uses the OpenAI API to generate recipes. OpenAI’s own privacy policy applies to data processed by its services. Please review OpenAI’s privacy policy for further information.
+
+7. Children's Privacy
+
+Chef! is not intended for use by children under the age of 13. We do not knowingly collect or solicit personal information from minors.
+
+8. Changes to This Privacy Policy
+
+We may update this Privacy Policy occasionally. Any updates will be communicated via our Service. Continued use of the Service after updates indicates acceptance of the revised policy.
+
+9. Your Rights
+
+You have the right to access, correct, or delete your personal information. For any such requests, please contact us directly.
+
+10. Contact Information
+
+For questions about this Privacy Policy or your data, please contact us at benjamin.vandamme@me.com.
+
+By using Chef!, you consent to the terms of this Privacy Policy.

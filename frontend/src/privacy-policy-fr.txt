@@ -1,0 +1,55 @@
+Politique de Confidentialité
+
+Date d'entrée en vigueur : 1er avril 2025
+
+Bienvenue sur Chef! (« Service »). Cette Politique de Confidentialité explique comment nous collectons, utilisons et protégeons vos informations personnelles lorsque vous utilisez notre Service.
+
+1. Informations que nous collectons
+
+Informations personnelles : Lors de votre inscription ou de l'utilisation du Service, nous pouvons collecter des informations telles que votre nom, votre adresse e-mail et vos préférences alimentaires.
+
+Données d'utilisation : Nous collectons des données anonymes sur votre utilisation du Service, telles que vos interactions avec celui-ci, ainsi que le type d'appareil et de navigateur que vous utilisez.
+
+2. Comment nous utilisons vos informations
+
+Nous utilisons vos informations pour :
+
+Fournir, exploiter et améliorer notre Service.
+
+Personnaliser votre expérience utilisateur en générant des recettes basées sur vos préférences.
+
+Répondre à vos demandes et demandes d'assistance.
+
+3. Partage des informations
+
+Nous ne vendons pas, n'échangeons pas et ne transférons pas vos informations personnelles à des tiers. Nous pouvons partager des informations agrégées et anonymisées à des fins d'analyse et d'amélioration du Service.
+
+4. Sécurité des données
+
+Nous mettons en œuvre des mesures de sécurité conformes aux normes industrielles afin de protéger vos données personnelles contre tout accès, divulgation, altération ou destruction non autorisés. Cependant, aucune méthode de transmission ou de stockage en ligne n'est entièrement sécurisée.
+
+5. Cookies
+
+Chef! peut utiliser des cookies et des technologies de suivi similaires pour améliorer votre expérience, analyser les schémas d'utilisation et collecter des informations statistiques.
+
+6. Services tiers
+
+Notre Service utilise l'API OpenAI pour générer des recettes. La politique de confidentialité d'OpenAI s'applique aux données traitées par ses services. Veuillez consulter la politique de confidentialité d'OpenAI pour plus d'informations.
+
+7. Protection des enfants
+
+Chef! n'est pas destiné aux enfants de moins de 13 ans. Nous ne collectons ni ne sollicitons sciemment des informations personnelles auprès de mineurs.
+
+8. Modifications de cette Politique de Confidentialité
+
+Nous pouvons occasionnellement mettre à jour cette Politique de Confidentialité. Toutes les mises à jour seront communiquées via notre Service. La poursuite de l'utilisation du Service après ces modifications vaut acceptation de la politique révisée.
+
+9. Vos droits
+
+Vous avez le droit d'accéder, de rectifier ou de supprimer vos informations personnelles. Pour toute demande de ce type, veuillez nous contacter directement.
+
+10. Coordonnées de contact
+
+Pour toute question concernant cette Politique de Confidentialité ou vos données, veuillez nous contacter à l'adresse suivante : benjamin.vandamme@me.com.
+
+En utilisant Chef!, vous acceptez les termes de cette Politique de Confidentialité.

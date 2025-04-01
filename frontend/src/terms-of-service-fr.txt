@@ -1,0 +1,51 @@
+Conditions Générales d'Utilisation
+
+Date d'entrée en vigueur : 1er avril 2025
+
+Bienvenue sur Chef! (« Service »). En utilisant notre Service, vous acceptez les présentes Conditions Générales d'Utilisation (« CGU »). Veuillez les lire attentivement.
+
+1. Description du Service
+
+Chef! propose des recettes générées par intelligence artificielle en utilisant l'API OpenAI. Les recettes sont automatiquement créées sur la base des informations que vous fournissez, notamment les ingrédients, les préférences alimentaires et autres informations pertinentes.
+
+2. Utilisation
+
+Vous devez utiliser Chef! uniquement à des fins légales.
+
+Vous ne devez pas utiliser le Service d'une manière qui viole les droits d'autrui ou qui enfreint les lois et réglementations applicables.
+
+3. Clause de non-responsabilité concernant le contenu généré par IA
+
+Toutes les recettes générées par Chef! sont créées grâce à l'intelligence artificielle. Nous ne garantissons pas l'exactitude, la fiabilité ou l'adéquation des recettes générées. Les utilisateurs doivent vérifier de manière indépendante que les recettes sont sûres, saines et adaptées à leurs besoins alimentaires.
+
+4. Limitation de responsabilité et exclusion de garantie
+
+Chef! est fourni « en l'état », sans garantie d'aucune sorte.
+
+Nous ne sommes pas responsables des conséquences négatives résultant de l'utilisation des recettes générées, y compris, mais sans s'y limiter, les réactions allergiques, maladies liées à l'alimentation ou insatisfaction quant au résultat culinaire.
+
+5. Responsabilité de l'utilisateur
+
+Vous êtes seul responsable d'évaluer la sécurité, la pertinence et l'efficacité des recettes. Vérifiez toujours attentivement les ingrédients et les méthodes avant la préparation et la consommation.
+
+6. Propriété intellectuelle
+
+Les recettes générées par Chef! peuvent être utilisées librement à des fins personnelles et non commerciales. L'utilisation commerciale, y compris la redistribution ou la revente des recettes générées sans autorisation, est interdite.
+
+7. Modifications des Conditions
+
+Nous nous réservons le droit de modifier ces CGU à tout moment. Toute mise à jour sera communiquée via Chef!. La poursuite de l'utilisation du Service après les modifications vaut acceptation des nouvelles CGU.
+
+8. Résiliation
+
+Nous pouvons suspendre ou résilier votre accès à Chef! sans préavis en cas de violation de ces CGU ou pour toute autre raison à notre discrétion.
+
+9. Droit applicable
+
+Ces CGU sont régies et interprétées conformément aux lois applicables dans votre juridiction.
+
+10. Coordonnées de contact
+
+Pour toute question concernant ces CGU, veuillez nous contacter à l'adresse suivante : benjamin.vandamme@me.com.
+
+En utilisant Chef!, vous reconnaissez avoir lu, compris et accepté les présentes Conditions Générales d'Utilisation.
