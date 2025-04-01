@@ -84,6 +84,8 @@ export type RecipePublic = {
 	id: string;
 	ingredients?: Array<IngredientPublic>;
 	directions?: Array<DirectionPublic>;
+	created_at: string;
+	updated_at: string;
 };
 
 export type RecipesPublic = {

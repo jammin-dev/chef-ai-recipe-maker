@@ -153,6 +153,8 @@ class RecipePublic(RecipeBase):
     id: uuid.UUID
     ingredients: list[IngredientPublic] = []
     directions: list[DirectionPublic] = []
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
 
 class RecipesPublic(SQLModel):
     data: list[RecipePublic]
