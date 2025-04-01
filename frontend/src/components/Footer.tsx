@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { TypoSmall } from "./ui/typography";
+import { TypoMuted, TypoSmall } from "./ui/typography";
 
 const Footer = () => {
 	const { t } = useTranslation();
 	return (
-		<footer className="flex justify-center gap-4 items-center h-10 w-full p-4">
-			<TypoSmall>&copy; 2025 Chef!</TypoSmall>
+		<footer className="flex justify-center items-center w-full">
+			<TypoMuted>&copy; 2025 Chef!</TypoMuted>
 			{/* {" | "}
       <a href="mailto:benjamin.vandamme@me.com" className="ml-4 underline">
         <TypoSmall>{t("contact")}</TypoSmall>
