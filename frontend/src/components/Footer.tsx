@@ -4,7 +4,7 @@ import { TypoMuted, TypoSmall } from "./ui/typography";
 const Footer = () => {
 	const { t } = useTranslation();
 	return (
-		<footer className="flex justify-center items-center w-full">
+		<footer className="flex justify-center items-center w-full pb-2 md:pb-0">
 			<TypoMuted>&copy; 2025 Chef!</TypoMuted>
 			{/* {" | "}
       <a href="mailto:benjamin.vandamme@me.com" className="ml-4 underline">
