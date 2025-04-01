@@ -33,6 +33,7 @@ import { useNavigateTo } from "@/hooks/use-navigate-to";
 import TermsOfServiceSentance from "@/components/terms-of-service-sentance";
 import { useTranslation } from "react-i18next";
 import { Loader2 } from "lucide-react";
+import { TEMP_RECIPE_LOCAL_STORAGE_NAME } from "@/constants";
 // import type { UserRegister } from "@/client"; // If you have a specific Type for registration
 
 interface AuthPageProps extends React.ComponentProps<"div"> {
@@ -98,6 +99,7 @@ export function AuthPage({
 			// Handle LOGIN
 			try {
 				await signIn(values.email, values.password);
+				sessionStorage.removeItem(TEMP_RECIPE_LOCAL_STORAGE_NAME);
 				toHome(); // e.g., navigate to dashboard
 			} catch (error) {
 				console.error("Login failed:", error);

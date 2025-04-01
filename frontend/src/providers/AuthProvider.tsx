@@ -3,11 +3,13 @@ import { useState, useEffect, type ReactNode } from "react";
 import AuthContext from "../contexts/AuthContext";
 import { LoginService, UsersService, type UserPublic } from "@/client";
 import LoginDialog from "@/components/LoginDialog";
+import { useNavigateTo } from "@/hooks/use-navigate-to";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 	const [user, setUser] = useState<UserPublic | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false);
+	const { toHome } = useNavigateTo();
 
 	const isAuthenticated = Boolean(user);
 	const isGuest = !user;
@@ -70,6 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	const signOut = () => {
 		localStorage.removeItem("access_token");
 		setUser(null);
+		toHome();
 	};
 
 	const openLoginDialogIfGuest = () => {

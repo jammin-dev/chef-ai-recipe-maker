@@ -17,6 +17,7 @@ import { RecipesService } from "@/client";
 import { promptExemples } from "@/prompt-examples";
 import { useAuth } from "@/hooks/use-auth";
 import TermsOfServiceSentance from "@/components/terms-of-service-sentance";
+import { TEMP_RECIPE_LOCAL_STORAGE_NAME } from "@/constants";
 
 function HomePage(): JSX.Element {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -46,7 +47,10 @@ function HomePage(): JSX.Element {
 				setRecipes((recipes) => [...recipes, newRecipe]);
 				toRecipe(newRecipe.id);
 			} else {
-				sessionStorage.setItem("temp-recipe", JSON.stringify(newRecipe));
+				sessionStorage.setItem(
+					TEMP_RECIPE_LOCAL_STORAGE_NAME,
+					JSON.stringify(newRecipe),
+				);
 				toGuestRecipe();
 			}
 		} catch (err: unknown) {
