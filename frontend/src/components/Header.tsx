@@ -73,7 +73,7 @@ const Header = () => {
 								<DropdownMenuGroup>
 									<DropdownMenuItem>
 										<Sparkles />
-										Upgrade to Plus
+										{t("Upgrade to Plus")}
 									</DropdownMenuItem>
 								</DropdownMenuGroup>
 								<DropdownMenuSeparator />

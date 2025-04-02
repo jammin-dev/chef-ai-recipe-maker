@@ -11,6 +11,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useTranslation } from "react-i18next";
 
 const RecipeItem = ({
 	recipe,
@@ -19,6 +20,7 @@ const RecipeItem = ({
 	isMobile,
 	tooltip,
 }) => {
+	const { t } = useTranslation();
 	return (
 		<SidebarMenuItem key={recipe.id}>
 			<SidebarMenuButton
@@ -53,7 +55,7 @@ const RecipeItem = ({
           <DropdownMenuSeparator /> */}
 					<DropdownMenuItem onClick={() => deleteRecipe(recipe.id)}>
 						<Trash2 className="text-muted-foreground" />
-						<span>Delete Recipe</span>
+						<span>{t("appSidebar.delete")}</span>
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>

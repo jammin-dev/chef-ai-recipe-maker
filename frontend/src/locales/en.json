@@ -12,6 +12,12 @@
 	"We're preparing your recipe!": "We're preparing your recipe!",
 	"Hang tight!": "Hang tight!",
 
+	"Upgrade to Plus": "Upgrade to Plus",
+
+	"Light": "Light",
+	"Dark": "Dark",
+	"System": "System",
+
 	"Search": "Search",
 	"Recently saved": "Recently saved",
 	"Favorites": "Favorites",
@@ -58,5 +64,21 @@
 		"registerSuccessTitle": "Registration Successful",
 		"registerSuccessDesc": "You can now log in using the verification code sent to your email.",
 		"ok": "OK"
+	},
+
+	"appSidebar": {
+		"delete": "Supprimer"
+	},
+
+	"recipePage": {
+		"preparation_time": "Preparation: ",
+		"cooking_time": "Cooking:",
+		"serves": "Servings: ",
+		"servesEdit": "servings",
+		"ingredients": "Ingredients",
+		"addIngredient": "Add an ingredient",
+		"directions": "Directions",
+		"addDirection": "Add a direction",
+		"enjoy": "Enjoy!"
 	}
 }

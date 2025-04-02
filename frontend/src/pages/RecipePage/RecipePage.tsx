@@ -25,6 +25,7 @@ import ImproveRecipeDialog from "./ImproveRecipeDialog";
 import { RecipesService } from "@/client";
 import { useAuth } from "@/hooks/use-auth";
 import { TEMP_RECIPE_LOCAL_STORAGE_NAME } from "@/constants";
+import { useTranslation } from "react-i18next";
 
 const RecipePage: React.FC = ({ guest }) => {
 	const [edit, setEdit] = useState<boolean>(false);
@@ -49,6 +50,7 @@ const RecipePage: React.FC = ({ guest }) => {
 	// React Router hook to get the passed-in recipe from location state
 	const { id } = useParams<{ id: string }>();
 	const { isAuthenticated } = useAuth();
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		const fetchOrFindRecipe = async () => {
@@ -191,7 +193,7 @@ const RecipePage: React.FC = ({ guest }) => {
 						{edit ? (
 							<div className="flex flex-col gap-2">
 								<div className="flex items-center gap-2">
-									{"Preparation: "}
+									{t("recipePage.preparation_time")}
 									<Input
 										className="w-16"
 										value={dirtyRecipe.preparation_time ?? ""}
@@ -202,7 +204,7 @@ const RecipePage: React.FC = ({ guest }) => {
 									{"min"}
 								</div>
 								<div className="flex items-center gap-2">
-									{"Cooking: "}
+									{t("recipePage.cooking_time")}
 									<Input
 										className="w-16"
 										value={dirtyRecipe.cook_time ?? ""}
@@ -216,16 +218,20 @@ const RecipePage: React.FC = ({ guest }) => {
 										value={dirtyRecipe.serves ?? ""}
 										onChange={(e) => handleChange("serves", e.target.value)}
 									/>
-									{"portions"}
+									{t("recipePage.servesEdit")}
 								</div>
 							</div>
 						) : (
 							<div className="flex flex-col">
 								<span>
-									Préparation : {recipeToDisplay?.preparation_time} min /
-									Cuisson : {recipeToDisplay?.cook_time} min
+									{t("recipePage.preparation_time")}
+									{recipeToDisplay?.preparation_time} min /{" "}
+									{t("recipePage.cooking_time")} {recipeToDisplay?.cook_time}{" "}
+									min
 								</span>
-								<span>Portions : {recipeToDisplay?.serves}</span>
+								<span>
+									{t("recipePage.serves")} {recipeToDisplay?.serves}
+								</span>
 							</div>
 						)}
 					</CardDescription>
@@ -236,7 +242,7 @@ const RecipePage: React.FC = ({ guest }) => {
 
 					{/* ------------------ Ingredients Section ------------------ */}
 					<div className="flex flex-col gap-3">
-						<TypoH3>Ingrédients</TypoH3>
+						<TypoH3>{t("recipePage.ingredients")}</TypoH3>
 						{edit ? (
 							<>
 								<DragAndDropList
@@ -276,7 +282,7 @@ const RecipePage: React.FC = ({ guest }) => {
 										className="cursor-pointer"
 									/>
 									<Textarea
-										placeholder="Ajouter un ingrédient"
+										placeholder={t("recipePage.addIngredient")}
 										value={addIngredient}
 										onChange={(e) => setAddIngredient(e.target.value)}
 										className="w-3/4 h-32"
@@ -296,7 +302,7 @@ const RecipePage: React.FC = ({ guest }) => {
 
 					{/* ------------------ Directions Section ------------------ */}
 					<div className="flex flex-col gap-3">
-						<TypoH3>Instructions</TypoH3>
+						<TypoH3>{t("recipePage.directions")}</TypoH3>
 						{edit ? (
 							<>
 								<DragAndDropList
@@ -336,7 +342,7 @@ const RecipePage: React.FC = ({ guest }) => {
 										className="cursor-pointer"
 									/>
 									<Textarea
-										placeholder="Ajouter une instruction"
+										placeholder={t("recipePage.addDirection")}
 										value={addDirection}
 										onChange={(e) => setAddDirection(e.target.value)}
 										className="w-3/4 h-60"
@@ -356,7 +362,7 @@ const RecipePage: React.FC = ({ guest }) => {
 				</CardContent>
 
 				<CardFooter className="flex justify-between">
-					{!edit && <p>Bon Appétit !</p>}
+					{!edit && <p>{t("recipePage.enjoy")}</p>}
 				</CardFooter>
 			</Card>
 			<ImproveRecipeDialog
