@@ -8,8 +8,10 @@
 	"contact": "Contact",
 	"report a bug": "Report a bug",
 	"an error occurred, please try again.": "An error occurred, please try again.",
+
 	"We're preparing your recipe!": "We're preparing your recipe!",
 	"Hang tight!": "Hang tight!",
+
 	"Search": "Search",
 	"Recently saved": "Recently saved",
 	"Favorites": "Favorites",
@@ -17,10 +19,23 @@
 	"Results": "Results",
 	"Log out": "Log out",
 	"No recipe yet": "No recipe yet",
+
 	"By logging in or signing up": "By logging in or signing up",
 	"By using this app": "By using this app",
 	", you accept our ": ", you accept our ",
 	"Terms of Service": "Terms of Service",
 	" and": " and",
-	"Privacy Policy": "Privacy Policy"
+	"Privacy Policy": "Privacy Policy",
+
+	"improveRecipeTitle": "Improve Your Recipe",
+	"improveRecipeDescription": "Take your recipe to the next level by refining, adding, or reworking instructions, ingredients, and more.",
+	"improveRecipePlaceholder": "e.g., 'Adjust the cooking time, add seasoning, or incorporate fresh herbs for extra flavor.'",
+	"submit": "Submit",
+	"genericError": "An error occurred, please try again.",
+
+	"loginDialogTitle": "You need to be logged in",
+	"loginDialogDescription": "Please log in or create an account to modify or save your recipes and access them later.",
+	"cancel": "Cancel",
+	"register": "Register",
+	"loginDialog": "Log in"
 }
