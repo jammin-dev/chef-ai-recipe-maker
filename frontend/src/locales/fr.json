@@ -36,5 +36,26 @@
 	"loginDialogDescription": "Veuillez vous connecter ou créer un compte pour modifier ou enregistrer vos recettes et y accéder ultérieurement.",
 	"cancel": "Annuler",
 	"register": "Inscription",
-	"loginDialog": "Se connecter"
+	"loginDialog": "Se connecter",
+
+	"auth": {
+		"welcome": "Bienvenue",
+		"welcomeBack": "Bienvenue",
+		"loginSubtitle": "Connectez-vous à votre compte Chef!",
+		"registerSubtitle": "Créez un compte Chef!",
+		"email": "Email",
+		"password": "Mot de passe",
+		"forgotPassword": "Mot de passe oublié ?",
+		"confirmPassword": "Confirmez le mot de passe",
+		"login": "Se connecter",
+		"signUp": "S'inscrire",
+		"noAccount": "Vous n'avez pas de compte ?",
+		"haveAccount": "Vous avez déjà un compte ?",
+		"signUpLink": "S'inscrire",
+		"signInLink": "Se connecter",
+		"terms": "En vous connectant ou en vous inscrivant, vous acceptez nos conditions d'utilisation.",
+		"registerSuccessTitle": "Inscription réussie",
+		"registerSuccessDesc": "Vous pouvez maintenant vous connecter avec le code de vérification envoyé à votre email.",
+		"ok": "OK"
+	}
 }

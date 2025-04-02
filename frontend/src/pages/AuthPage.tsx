@@ -133,12 +133,12 @@ export function AuthPage({
 								{/* Title & Subtitle */}
 								<div className="flex flex-col items-center text-center">
 									<h1 className="text-2xl font-bold">
-										{`Welcome${isLogin ? " back" : ""}`}
+										{isLogin ? t("auth.welcomeBack") : t("auth.welcome")}
 									</h1>
 									<p className="text-muted-foreground text-balance">
 										{isLogin
-											? "Login to your Chef! account"
-											: "Create a Chef! account"}
+											? t("auth.loginSubtitle")
+											: t("auth.registerSubtitle")}
 									</p>
 								</div>
 
@@ -148,7 +148,7 @@ export function AuthPage({
 									name="email"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Email</FormLabel>
+											<FormLabel>{t("auth.email")}</FormLabel>
 											<FormControl>
 												<Input
 													id="email"
@@ -169,13 +169,13 @@ export function AuthPage({
 									render={({ field }) => (
 										<FormItem>
 											<div className="flex items-center">
-												<FormLabel>Password</FormLabel>
+												<FormLabel>{t("auth.password")}</FormLabel>
 												{isLogin && (
 													<a
 														href="/"
 														className="ml-auto text-sm underline-offset-2 hover:underline"
 													>
-														Forgot your password?
+														{t("auth.forgotPassword")}
 													</a>
 												)}
 											</div>
@@ -195,7 +195,7 @@ export function AuthPage({
 										render={({ field }) => (
 											<FormItem>
 												<div className="flex items-center">
-													<FormLabel>Confirm Password</FormLabel>
+													<FormLabel>{t("auth.confirmPassword")}</FormLabel>
 												</div>
 												<FormControl>
 													<Input
@@ -213,19 +213,17 @@ export function AuthPage({
 								{/* Submit Button */}
 								<Button type="submit" className="w-full" disabled={loading}>
 									{loading && <Loader2 className="animate-spin" />}
-									{isLogin ? "Login" : "Sign Up"}
+									{isLogin ? t("auth.login") : t("auth.signUp")}
 								</Button>
 
 								{/* Toggle Login/Register */}
 								<div className="text-center text-sm">
-									{isLogin
-										? "Don't have an account?"
-										: "Already have an account?"}{" "}
+									{isLogin ? t("auth.noAccount") : t("auth.haveAccount")}{" "}
 									<Link
 										to={isLogin ? "/auth/register" : "/auth/login"}
 										className="underline underline-offset-4"
 									>
-										{isLogin ? "Sign up" : "Sign in"}
+										{isLogin ? t("auth.signUpLink") : t("auth.signInLink")}
 									</Link>
 								</div>
 							</div>
@@ -256,10 +254,11 @@ export function AuthPage({
 				>
 					<AlertDialogContent>
 						<AlertDialogHeader>
-							<AlertDialogTitle>Registration Successful</AlertDialogTitle>
-							<AlertDialogDescription className="flex flex-col items-center gap-4">
-								You can now log in using the verification code sent to your
-								email.
+							<AlertDialogTitle>
+								{t("auth.registerSuccessTitle")}
+							</AlertDialogTitle>
+							<AlertDialogDescription>
+								{t("auth.registerSuccessDesc")}
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 						<AlertDialogFooter>
@@ -270,7 +269,7 @@ export function AuthPage({
 									toLogin(form.getValues("email"));
 								}}
 							>
-								OK
+								{t("auth.ok")}
 							</AlertDialogAction>
 						</AlertDialogFooter>
 					</AlertDialogContent>

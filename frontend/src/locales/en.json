@@ -37,5 +37,26 @@
 	"loginDialogDescription": "Please log in or create an account to modify or save your recipes and access them later.",
 	"cancel": "Cancel",
 	"register": "Register",
-	"loginDialog": "Log in"
+	"loginDialog": "Log in",
+
+	"auth": {
+		"welcome": "Welcome",
+		"welcomeBack": "Welcome back",
+		"loginSubtitle": "Login to your Chef! account",
+		"registerSubtitle": "Create a Chef! account",
+		"email": "Email",
+		"password": "Password",
+		"forgotPassword": "Forgot your password?",
+		"confirmPassword": "Confirm Password",
+		"login": "Login",
+		"signUp": "Sign Up",
+		"noAccount": "Don't have an account?",
+		"haveAccount": "Already have an account?",
+		"signUpLink": "Sign up",
+		"signInLink": "Sign in",
+		"terms": "By logging in or signing up, you agree to our Terms of Service.",
+		"registerSuccessTitle": "Registration Successful",
+		"registerSuccessDesc": "You can now log in using the verification code sent to your email.",
+		"ok": "OK"
+	}
 }
