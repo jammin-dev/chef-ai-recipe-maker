@@ -12,7 +12,7 @@ RELEASE_CATEGORIES = {
     "✨": "Features",                  # Introduce new features.
     "📝": "Documentation",             # Add or update documentation.
     "🚀": "Features",                  # Deploy stuff.
-    "💄": "Features",                  # Add or update the UI and style files.
+    "💄": "Improvements",                  # Add or update the UI and style files.
     "🎉": "Features",                  # Begin a project.
     "✅": "Tests",                     # Add, update, or pass tests.
     "🔒️": "Bug Fixes",                # Fix security or privacy issues.
@@ -31,7 +31,7 @@ RELEASE_CATEGORIES = {
     "➖": "Maintenance",              # Remove a dependency.
     "🔧": "Maintenance",              # Add or update configuration files.
     "🔨": "Maintenance",              # Add or update development scripts.
-    "🌐": "Features",                 # Internationalization and localization.
+    "🌐": "Improvements",                 # Internationalization and localization.
     "✏️": "Bug Fixes",                # Fix typos.
     "💩": "Maintenance",              # Write bad code that needs to be improved.
     "⏪️": "Maintenance",              # Revert changes.
@@ -80,22 +80,24 @@ RELEASE_CATEGORIES = {
     "✈️": "Improvements"              # Improve offline support.
 }
 
-def get_latest_tag():
+def get_previous_tag():
     """
-    Retrieves the latest tag from the repository using git describe.
+    Retrieves the previous tag from the repository.
     """
     try:
         result = subprocess.run(
-            ["git", "describe", "--tags", "--abbrev=0"],
+            ["git", "tag", "--sort=-v:refname"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
             check=True
         )
-        latest_tag = result.stdout.strip()
-        return latest_tag
+        tags = result.stdout.strip().split('\n')
+        if len(tags) < 2:
+            sys.exit("Not enough tags in the repository to find a previous one.")
+        return tags[1]  # Second tag is the previous one
     except subprocess.CalledProcessError as e:
-        sys.exit(f"Error retrieving latest tag:\n{e.stderr}")
+        sys.exit(f"Error retrieving tags:\n{e.stderr}")
 
 def get_repo_url():
     """
@@ -178,7 +180,7 @@ def categorize_commits(commits, mapping):
         categorized[commit["category"]].append(commit)
     return categorized
 
-def write_changelog(categorized, repo_url, output_file="../CHANGELOG.md"):
+def write_changelog(categorized, repo_url, output_file="./CHANGELOG.md"):
     """
     Writes a Markdown changelog grouping commits by release category.
     Each commit is formatted as: 
@@ -211,7 +213,7 @@ def write_changelog(categorized, repo_url, output_file="../CHANGELOG.md"):
     print(f"Changelog written to {output_file}")
 
 def main():
-    latest_tag = get_latest_tag()
+    latest_tag = get_previous_tag()
     print(f"Using latest tag: {latest_tag}")
     repo_url = get_repo_url()
     if not repo_url:
