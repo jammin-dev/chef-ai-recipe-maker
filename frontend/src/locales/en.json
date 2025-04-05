@@ -71,7 +71,16 @@
 		"resetButton": "Reset",
 		"resetSuccessDesc": "Your password has been updated successfully. You can now log in with your new password.",
 		"tosDisclaimer": "By resetting your password, you agree to keep it confidential.",
-		"resetSuccessTitle": "Password Reset Successful"
+		"resetSuccessTitle": "Password Reset Successful",
+
+		"recoverEmailTitle": "Recover Password",
+		"emailLabel": "Email",
+		"emailPlaceholder": "Enter your email",
+		"sendRecoveryButton": "Send",
+		"recoverEmailDisclaimer": "By requesting a password recovery, you will receive an email with further instructions.",
+		"recoverEmailSuccessTitle": "Recovery Email Sent",
+		"recoverEmailSuccessDesc": "We've sent a recovery email to your inbox. Please check your email for further instructions.",
+		"recoverEmailFailure": "An error occurred. Please try again."
 	},
 
 	"appSidebar": {

@@ -34,6 +34,7 @@ import TermsOfServiceSentance from "@/components/terms-of-service-sentance";
 import { useTranslation } from "react-i18next";
 import { Loader2 } from "lucide-react";
 import { TEMP_RECIPE_LOCAL_STORAGE_NAME } from "@/constants";
+import { TypoMuted } from "@/components/ui/typography";
 // import type { UserRegister } from "@/client"; // If you have a specific Type for registration
 
 interface AuthPageProps extends React.ComponentProps<"div"> {
@@ -73,7 +74,7 @@ export function AuthPage({
 	// 2) Hooks for location and navigation
 	const location = useLocation();
 	const { signIn, signUp, loading } = useAuth();
-	const { toHome, toLogin } = useNavigateTo();
+	const { toHome, toLogin, toRecoverPassword } = useNavigateTo();
 	const { t } = useTranslation();
 
 	// 3) Registration success dialog state
@@ -171,12 +172,14 @@ export function AuthPage({
 											<div className="flex items-center">
 												<FormLabel>{t("auth.password")}</FormLabel>
 												{isLogin && (
-													<a
-														href="/"
-														className="ml-auto text-sm underline-offset-2 hover:underline"
+													<div
+														onClick={toRecoverPassword}
+														className="ml-auto cursor-pointer"
 													>
-														{t("auth.forgotPassword")}
-													</a>
+														<TypoMuted classname="underline-offset-2 hover:underline">
+															{t("auth.forgotPassword")}
+														</TypoMuted>
+													</div>
 												)}
 											</div>
 											<FormControl>

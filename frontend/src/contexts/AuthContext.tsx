@@ -1,5 +1,5 @@
 // src/contexts/AuthContext.tsx
-import { UserPublic } from "@/client";
+import type { UserPublic } from "@/client";
 import { createContext } from "react";
 
 interface AuthContextValue {
@@ -10,7 +10,8 @@ interface AuthContextValue {
 	signUp: (email: string, password: string) => Promise<void>;
 	signOut: () => void;
 	openLoginDialogIfGuest: () => boolean;
-	recoverPassword: (token: string, new_password: string) => Promise<void>;
+	resetPassword: (token: string, new_password: string) => Promise<void>;
+	recoverPassword: (email: string) => Promise<void>;
 }
 
 // Create the context with default values
@@ -22,6 +23,7 @@ const AuthContext = createContext<AuthContextValue>({
 	signUp: async () => {},
 	signOut: () => {},
 	openLoginDialogIfGuest: () => false,
+	resetPassword: async () => {},
 	recoverPassword: async () => {},
 });
 

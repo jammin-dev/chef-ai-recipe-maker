@@ -120,6 +120,8 @@ export function TypoSmall({ children }: TypoProps) {
 	return <small className="text-sm font-medium leading-none">{children}</small>;
 }
 
-export function TypoMuted({ children }: TypoProps) {
-	return <p className="text-xs text-muted-foreground"> {children}</p>;
+export function TypoMuted({ classname, children }: TypoProps) {
+	return (
+		<p className={`text-xs text-muted-foreground ${classname}`}> {children}</p>
+	);
 }

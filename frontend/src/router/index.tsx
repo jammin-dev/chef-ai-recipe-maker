@@ -7,6 +7,7 @@ import AppLayout from "@/layouts/AppLayout";
 import { RecipeProvider } from "@/providers/RecipeProvider";
 import RecipePage from "@/pages/RecipePage/RecipePage";
 import { AuthProvider } from "@/providers/AuthProvider";
+import { ResetPasswordPage } from "@/pages/ResetPasswordPage";
 import { RecoverPasswordPage } from "@/pages/RecoverPasswordPage";
 
 const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "reset-password",
+						element: <ResetPasswordPage />,
+					},
+					{
+						path: "recover-password",
 						element: <RecoverPasswordPage />,
 					},
 				],

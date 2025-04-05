@@ -83,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		return true;
 	};
 
-	const recoverPassword = async (token, new_password) => {
+	const resetPassword = async (token: string, new_password: string) => {
 		try {
 			setLoading(true);
 			await LoginService.resetPassword({
@@ -91,6 +91,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 					token,
 					new_password,
 				},
+			});
+		} catch (error) {
+			console.error("Register failed:", error);
+			throw error; // 🚀 Re-throw the error so onSubmit can catch it
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const recoverPassword = async (email: string) => {
+		try {
+			setLoading(true);
+			await LoginService.recoverPassword({
+				email,
 			});
 		} catch (error) {
 			console.error("Register failed:", error);
@@ -110,6 +124,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 				signUp,
 				signOut,
 				openLoginDialogIfGuest,
+				resetPassword,
 				recoverPassword,
 			}}
 		>

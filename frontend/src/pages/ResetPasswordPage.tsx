@@ -2,7 +2,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 import coverImg from "@/assets/auth-cover.jpg";
@@ -32,48 +32,64 @@ import { useTranslation } from "react-i18next";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 
-//
-// 1. Define our Zod schema for an email field
-//
-const recoverEmailSchema = z.object({
-	email: z.string().email("Please enter a valid email address"),
-});
+const resetPasswordSchema = z
+	.object({
+		password: z
+			.string()
+			.min(6, { message: "Password must be at least 6 characters" }),
+		confirmPassword: z
+			.string()
+			.min(6, { message: "Password must be at least 6 characters" }),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		path: ["confirmPassword"],
+		message: "Passwords do not match",
+	});
 
-export function RecoverPasswordPage(
+export function ResetPasswordPage(
 	props: React.ComponentProps<"div">,
 ): JSX.Element {
 	// For translations if needed
 	const { t } = useTranslation();
-	const { recoverPassword } = useAuth(); // or wherever your recoverPassword method exists
-
+	const { resetPassword } = useAuth();
 	// Local states for loading & success dialog
 	const [loading, setLoading] = useState(false);
 	const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
-	// 2. Setup React Hook Form with our schema
-	const form = useForm<z.infer<typeof recoverEmailSchema>>({
-		resolver: zodResolver(recoverEmailSchema),
+	// Extract token from URL: http://localhost:5173/auth/reset-password?token=...
+	const location = useLocation();
+	const token = new URLSearchParams(location.search).get("token");
+
+	// 2) Setup React Hook Form with our schema
+	const form = useForm<z.infer<typeof resetPasswordSchema>>({
+		resolver: zodResolver(resetPasswordSchema),
 		defaultValues: {
-			email: "",
+			password: "",
+			confirmPassword: "",
 		},
 	});
 
-	// 3. Submission handler
-	const onSubmit = async (values: z.infer<typeof recoverEmailSchema>) => {
+	// 3) Submission handler
+	const onSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
 		try {
+			// Make sure we have a token
+			if (!token) {
+				form.setError("password", {
+					message:
+						"Invalid or missing token. Please check your link or request a new reset email.",
+				});
+				return;
+			}
+
 			setLoading(true);
-			// Assuming you have a method like "login.recoverPassword(email)"
-			// that triggers sending the recovery email
-			await recoverPassword(values.email);
+			// Send token + new password to recoverPassword
+			await resetPassword(token, values.password);
 
 			setShowSuccessDialog(true);
 		} catch (error) {
-			console.error("Recovery email failed:", error);
-			form.setError("email", {
-				message: t(
-					"auth.recoverEmailFailure",
-					"An error occurred. Please try again.",
-				),
+			console.error("Recovery failed:", error);
+			form.setError("password", {
+				message: "Password reset failed. Please try again.",
 			});
 		} finally {
 			setLoading(false);
@@ -93,24 +109,44 @@ export function RecoverPasswordPage(
 								{/* Title & Subtitle */}
 								<div className="flex flex-col items-center text-center">
 									<h1 className="text-2xl font-bold">
-										{t("auth.recoverEmailTitle", "Recover Password")}
+										{t("auth.resetPasswordTitle", "Reset Your Password")}
 									</h1>
 								</div>
 
-								{/* Email Field */}
+								{/* New Password Field */}
 								<FormField
 									control={form.control}
-									name="email"
+									name="password"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>{t("auth.emailLabel", "Email")}</FormLabel>
+											<FormLabel>
+												{t("auth.newPassword", "New Password")}
+											</FormLabel>
 											<FormControl>
 												<Input
-													type="email"
-													placeholder={t(
-														"auth.emailPlaceholder",
-														"Enter your email",
-													)}
+													id="new-password"
+													type="password"
+													placeholder="********"
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+								{/* Confirm Password Field */}
+								<FormField
+									control={form.control}
+									name="confirmPassword"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>{t("auth.confirmPassword")}</FormLabel>
+											<FormControl>
+												<Input
+													id="confirm-password"
+													type="password"
+													placeholder="********"
 													{...field}
 												/>
 											</FormControl>
@@ -122,7 +158,7 @@ export function RecoverPasswordPage(
 								{/* Submit Button */}
 								<Button type="submit" className="w-full" disabled={loading}>
 									{loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-									{t("auth.sendRecoveryButton", "Send")}
+									{t("auth.resetButton", "Reset Password")}
 								</Button>
 							</div>
 						</form>
@@ -139,11 +175,11 @@ export function RecoverPasswordPage(
 				</CardContent>
 			</Card>
 
-			{/* Terms of Service / Disclaimer sentence */}
+			{/* Terms of Service sentence, optional */}
 			<div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
 				{t(
-					"auth.recoverEmailDisclaimer",
-					"By requesting a password recovery, you will receive an email with further instructions.",
+					"auth.tosDisclaimer",
+					"By resetting your password, you agree to keep it confidential.",
 				)}
 			</div>
 
@@ -152,12 +188,12 @@ export function RecoverPasswordPage(
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>
-							{t("auth.recoverEmailSuccessTitle", "Recovery Email Sent")}
+							{t("auth.resetSuccessTitle", "Password Reset Successful")}
 						</AlertDialogTitle>
 						<AlertDialogDescription>
 							{t(
-								"auth.recoverEmailSuccessDesc",
-								"We've sent a recovery email to your inbox. Please check your email for further instructions.",
+								"auth.resetSuccessDesc",
+								"Your password has been updated successfully. You can now log in with your new password.",
 							)}
 						</AlertDialogDescription>
 					</AlertDialogHeader>

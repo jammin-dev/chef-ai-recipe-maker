@@ -70,7 +70,16 @@
 		"resetButton": "Réinitialiser",
 		"resetSuccessDesc": "Votre mot de passe a été mis à jour avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
 		"tosDisclaimer": "En réinitialisant votre mot de passe, vous acceptez de le garder confidentiel.",
-		"resetSuccessTitle": "Mot de passe réinitialisé avec succès"
+		"resetSuccessTitle": "Mot de passe réinitialisé avec succès",
+
+		"recoverEmailTitle": "Récupérer votre mot de passe",
+		"emailLabel": "Adresse e-mail",
+		"emailPlaceholder": "Entrez votre adresse e-mail",
+		"sendRecoveryButton": "Envoyer",
+		"recoverEmailDisclaimer": "En demandant une récupération de mot de passe, vous recevrez un e-mail avec les instructions nécessaires.",
+		"recoverEmailSuccessTitle": "E-mail de récupération envoyé",
+		"recoverEmailSuccessDesc": "Nous avons envoyé un e-mail de récupération dans votre boîte de réception. Veuillez vérifier vos e-mails pour plus d'instructions.",
+		"recoverEmailFailure": "Une erreur s'est produite. Veuillez réessayer."
 	},
 
 	"appSidebar": {
