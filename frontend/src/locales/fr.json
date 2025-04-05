@@ -62,7 +62,15 @@
 		"terms": "En vous connectant ou en vous inscrivant, vous acceptez nos conditions d'utilisation.",
 		"registerSuccessTitle": "Inscription réussie",
 		"registerSuccessDesc": "Vous pouvez maintenant vous connecter avec le code de vérification envoyé à votre email.",
-		"ok": "OK"
+		"ok": "OK",
+
+		"resetPasswordTitle": "Réinitialisez votre mot de passe",
+		"resetPasswordSubtitle": "Entrez et confirmez votre nouveau mot de passe ci-dessous.",
+		"newPassword": "Nouveau mot de passe",
+		"resetButton": "Réinitialiser",
+		"resetSuccessDesc": "Votre mot de passe a été mis à jour avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+		"tosDisclaimer": "En réinitialisant votre mot de passe, vous acceptez de le garder confidentiel.",
+		"resetSuccessTitle": "Mot de passe réinitialisé avec succès"
 	},
 
 	"appSidebar": {

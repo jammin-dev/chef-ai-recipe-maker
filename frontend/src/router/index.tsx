@@ -7,6 +7,7 @@ import AppLayout from "@/layouts/AppLayout";
 import { RecipeProvider } from "@/providers/RecipeProvider";
 import RecipePage from "@/pages/RecipePage/RecipePage";
 import { AuthProvider } from "@/providers/AuthProvider";
+import { RecoverPasswordPage } from "@/pages/RecoverPasswordPage";
 
 const router = createBrowserRouter([
 	{
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
 					{
 						path: "register",
 						element: <AuthPage isRegister={true} />,
+					},
+					{
+						path: "reset-password",
+						element: <RecoverPasswordPage />,
 					},
 				],
 			},

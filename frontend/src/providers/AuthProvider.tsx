@@ -83,6 +83,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		return true;
 	};
 
+	const recoverPassword = async (token, new_password) => {
+		try {
+			setLoading(true);
+			await LoginService.resetPassword({
+				requestBody: {
+					token,
+					new_password,
+				},
+			});
+		} catch (error) {
+			console.error("Register failed:", error);
+			throw error; // 🚀 Re-throw the error so onSubmit can catch it
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return (
 		<AuthContext.Provider
 			value={{
@@ -93,6 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 				signUp,
 				signOut,
 				openLoginDialogIfGuest,
+				recoverPassword,
 			}}
 		>
 			{children}

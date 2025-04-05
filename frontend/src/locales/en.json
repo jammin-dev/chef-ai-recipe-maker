@@ -63,7 +63,15 @@
 		"terms": "By logging in or signing up, you agree to our Terms of Service.",
 		"registerSuccessTitle": "Registration Successful",
 		"registerSuccessDesc": "You can now log in using the verification code sent to your email.",
-		"ok": "OK"
+		"ok": "OK",
+
+		"resetPasswordTitle": "Reset Your Password",
+		"resetPasswordSubtitle": "Enter and confirm your new password below.",
+		"newPassword": "New Password",
+		"resetButton": "Reset",
+		"resetSuccessDesc": "Your password has been updated successfully. You can now log in with your new password.",
+		"tosDisclaimer": "By resetting your password, you agree to keep it confidential.",
+		"resetSuccessTitle": "Password Reset Successful"
 	},
 
 	"appSidebar": {
