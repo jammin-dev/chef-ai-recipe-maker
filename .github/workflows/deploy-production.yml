@@ -7,7 +7,6 @@ on:
 
 jobs:
   deploy:
-    if: github.repository_owner == 'jammmin-dev'
     runs-on:
       - self-hosted
       - production
