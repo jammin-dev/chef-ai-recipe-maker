@@ -79,7 +79,13 @@
 		"recoverEmailDisclaimer": "En demandant une récupération de mot de passe, vous recevrez un e-mail avec les instructions nécessaires.",
 		"recoverEmailSuccessTitle": "E-mail de récupération envoyé",
 		"recoverEmailSuccessDesc": "Nous avons envoyé un e-mail de récupération dans votre boîte de réception. Veuillez vérifier vos e-mails pour plus d'instructions.",
-		"recoverEmailFailure": "Une erreur s'est produite. Veuillez réessayer."
+		"recoverEmailFailure": "Une erreur s'est produite. Veuillez réessayer.",
+
+		"loginFailureMessage": "Échec de la connexion. Veuillez vérifier vos identifiants.",
+		"passwordCharactersError": "Le mot de passe doit contenir au moins 6 caractères",
+		"passwordsDontMatch": "Les mots de passe ne correspondent pas",
+		"emailInvalid": "Adresse email invalide",
+		"registrationFailure": "Échec de l'inscription, veuillez réessayer."
 	},
 
 	"appSidebar": {

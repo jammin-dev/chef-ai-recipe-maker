@@ -80,7 +80,13 @@
 		"recoverEmailDisclaimer": "By requesting a password recovery, you will receive an email with further instructions.",
 		"recoverEmailSuccessTitle": "Recovery Email Sent",
 		"recoverEmailSuccessDesc": "We've sent a recovery email to your inbox. Please check your email for further instructions.",
-		"recoverEmailFailure": "An error occurred. Please try again."
+		"recoverEmailFailure": "An error occurred. Please try again.",
+
+		"loginFailureMessage": "Login failed. Please check your credentials.",
+		"passwordCharactersError": "Password must be at least 6 characters",
+		"passwordsDontMatch": "Passwords do not match",
+		"emailInvalid": "Invalid email address",
+		"registrationFailure": "Registration failed. Please try again."
 	},
 
 	"appSidebar": {

@@ -42,29 +42,6 @@ interface AuthPageProps extends React.ComponentProps<"div"> {
 	isRegister?: boolean;
 }
 
-// 1) Define separate schemas for Login and Register
-const loginSchema = z.object({
-	email: z.string().email({ message: "Invalid email address" }),
-	password: z
-		.string()
-		.min(6, { message: "Password must be at least 6 characters" }),
-});
-
-const registerSchema = z
-	.object({
-		email: z.string().email({ message: "Invalid email address" }),
-		password: z
-			.string()
-			.min(6, { message: "Password must be at least 6 characters" }),
-		confirmPassword: z
-			.string()
-			.min(6, { message: "Password must be at least 6 characters" }),
-	})
-	.refine((data) => data.password === data.confirmPassword, {
-		path: ["confirmPassword"],
-		message: "Passwords do not match",
-	});
-
 export function AuthPage({
 	className,
 	isLogin,
@@ -76,6 +53,27 @@ export function AuthPage({
 	const { signIn, signUp, loading } = useAuth();
 	const { toHome, toLogin, toRecoverPassword } = useNavigateTo();
 	const { t } = useTranslation();
+
+	// 1) Define separate schemas for Login and Register
+	const loginSchema = z.object({
+		email: z.string().email({ message: t("auth.emailInvalid") }),
+		password: z.string().min(6, { message: t("auth.passwordCharactersError") }),
+	});
+
+	const registerSchema = z
+		.object({
+			email: z.string().email({ message: t("auth.emailInvalid") }),
+			password: z
+				.string()
+				.min(6, { message: t("auth.passwordCharactersError") }),
+			confirmPassword: z
+				.string()
+				.min(6, { message: t("auth.passwordCharactersError") }),
+		})
+		.refine((data) => data.password === data.confirmPassword, {
+			path: ["confirmPassword"],
+			message: t("auth.passwordsDontMatch"),
+		});
 
 	// 3) Registration success dialog state
 	const [showSuccessDialog, setShowSuccessDialog] = useState(false);
@@ -105,7 +103,7 @@ export function AuthPage({
 			} catch (error) {
 				console.error("Login failed:", error);
 				form.setError("email", {
-					message: "Login failed. Please check your credentials.",
+					message: t("auth.loginFailureMessage"),
 				});
 			}
 		} else if (isRegister) {
@@ -117,7 +115,7 @@ export function AuthPage({
 			} catch (error) {
 				console.error("Registration failed:", error);
 				form.setError("email", {
-					message: "Registration failed. Please try again.",
+					message: t("auth.registrationFailure"),
 				});
 			}
 		}
@@ -151,12 +149,7 @@ export function AuthPage({
 										<FormItem>
 											<FormLabel>{t("auth.email")}</FormLabel>
 											<FormControl>
-												<Input
-													id="email"
-													type="email"
-													placeholder="john.doe@example.com"
-													{...field}
-												/>
+												<Input id="email" type="email" {...field} />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
