@@ -87,7 +87,6 @@ services:
       SMTP_PORT: "1025"
       SMTP_TLS: false
       EMAILS_FROM_EMAIL: "noreply@example.com"
-      EMAILS_FROM_NAME: "Chef!"
 
   mailcatcher:
     image: schickling/mailcatcher
