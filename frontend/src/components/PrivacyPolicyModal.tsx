@@ -59,7 +59,7 @@ export function PrivacyPolicyModal({ open, setOpen }) {
         */}
 				<div className="h-full overflow-y-auto pr-2">
 					{/* ----------------------- ENGLISH ----------------------- */}
-					<h2 className="mt-4 text-lg font-semibold">Privacy Policy</h2>
+					<h2 className="mt-4 text-lg font-semibold">🇬🇧 Privacy Policy</h2>
 					<p className="text-sm">
 						<strong>Effective Date: April 1, 2025</strong>
 						<br />
@@ -156,7 +156,7 @@ export function PrivacyPolicyModal({ open, setOpen }) {
 
 					{/* ----------------------- FRENCH ----------------------- */}
 					<h2 className="mt-4 text-lg font-semibold">
-						Politique de Confidentialité
+						🇫🇷 Politique de Confidentialité
 					</h2>
 					<p className="text-sm">
 						<strong>Date d&apos;entrée en vigueur : 1er avril 2025</strong>
