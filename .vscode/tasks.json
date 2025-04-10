@@ -13,6 +13,14 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "frontend",
+			"problemMatcher": [],
+			"label": "npm: dev - frontend",
+			"detail": "vite"
 		}
 	]
 }
