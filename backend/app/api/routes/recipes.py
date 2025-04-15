@@ -12,17 +12,12 @@ from app.core.config import settings
 from app.core.rate_limit import limiter
 from app.models import (
     Direction,
-    DirectionCreate,
     Ingredient,
-    IngredientCreate,
     Recipe,
-    RecipeCreate,
-    RecipePublic,
-    RecipesPublic,
-    RecipeUpdate,
-    Message,
     User,
 )
+from app.schemas.recipe_schemas import RecipeCreate, RecipePublic, RecipeUpdate, RecipesPublic
+from app.schemas.schemas import Message
 
 # Define your OpenAI constants (consider storing these securely)
 OPENAI_API_KEY = settings.OPENAI_API_KEY
