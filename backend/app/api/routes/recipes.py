@@ -253,7 +253,7 @@ def build_prompt(user_input: str) -> str:
 def create_recipe_from_ai(current_user: User, final_prompt: str, session: Session):
         # Build the OpenAI payload with the adapted prompt
         payload = {
-            "model": "gpt-4o-mini",
+            "model": "gpt-4o-mini-search-preview",
             "messages": [
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": final_prompt},
