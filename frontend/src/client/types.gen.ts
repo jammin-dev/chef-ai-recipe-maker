@@ -11,10 +11,12 @@ export type Body_login_login_access_token = {
 
 export type Body_recipes_generate_recipe = {
 	user_input: string;
+	language?: string;
 };
 
 export type Body_recipes_generate_recipe_public = {
 	user_input: string;
+	language?: string;
 };
 
 export type Body_recipes_improve_recipe = {
@@ -224,11 +226,12 @@ export type RecipesDeleteRecipeData = {
 
 export type RecipesDeleteRecipeResponse = Message;
 
-export type RecipesGenerateRecipePublicData = {
-	requestBody: Body_recipes_generate_recipe_public;
+export type RecipesImproveRecipeData = {
+	id: string;
+	requestBody: Body_recipes_improve_recipe;
 };
 
-export type RecipesGenerateRecipePublicResponse = RecipePublic;
+export type RecipesImproveRecipeResponse = unknown;
 
 export type RecipesGenerateRecipeData = {
 	requestBody: Body_recipes_generate_recipe;
@@ -236,12 +239,11 @@ export type RecipesGenerateRecipeData = {
 
 export type RecipesGenerateRecipeResponse = RecipePublic;
 
-export type RecipesImproveRecipeData = {
-	id: string;
-	requestBody: Body_recipes_improve_recipe;
+export type RecipesGenerateRecipePublicData = {
+	requestBody: Body_recipes_generate_recipe_public;
 };
 
-export type RecipesImproveRecipeResponse = unknown;
+export type RecipesGenerateRecipePublicResponse = RecipePublic;
 
 export type UsersReadUsersData = {
 	limit?: number;

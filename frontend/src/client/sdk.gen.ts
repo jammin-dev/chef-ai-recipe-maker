@@ -25,12 +25,12 @@ import type {
 	RecipesUpdateRecipeResponse,
 	RecipesDeleteRecipeData,
 	RecipesDeleteRecipeResponse,
-	RecipesGenerateRecipePublicData,
-	RecipesGenerateRecipePublicResponse,
-	RecipesGenerateRecipeData,
-	RecipesGenerateRecipeResponse,
 	RecipesImproveRecipeData,
 	RecipesImproveRecipeResponse,
+	RecipesGenerateRecipeData,
+	RecipesGenerateRecipeResponse,
+	RecipesGenerateRecipePublicData,
+	RecipesGenerateRecipePublicResponse,
 	UsersReadUsersData,
 	UsersReadUsersResponse,
 	UsersCreateUserData,
@@ -304,56 +304,6 @@ export class RecipesService {
 	}
 
 	/**
-	 * Generate Recipe Public
-	 * Generate a recipe using OpenAI and create it in the DB.
-	 * The frontend sends a prompt; the backend calls OpenAI,
-	 * parses the JSON, creates the recipe using the same logic as create_recipe,
-	 * and returns a RecipePublic.
-	 * @param data The data for the request.
-	 * @param data.requestBody
-	 * @returns RecipePublic Successful Response
-	 * @throws ApiError
-	 */
-	public static generateRecipePublic(
-		data: RecipesGenerateRecipePublicData,
-	): CancelablePromise<RecipesGenerateRecipePublicResponse> {
-		return __request(OpenAPI, {
-			method: "POST",
-			url: "/api/v1/recipes/generate-public",
-			body: data.requestBody,
-			mediaType: "application/json",
-			errors: {
-				422: "Validation Error",
-			},
-		});
-	}
-
-	/**
-	 * Generate Recipe
-	 * Generate a recipe using OpenAI and create it in the DB.
-	 * The frontend sends a prompt; the backend calls OpenAI,
-	 * parses the JSON, creates the recipe using the same logic as create_recipe,
-	 * and returns a RecipePublic.
-	 * @param data The data for the request.
-	 * @param data.requestBody
-	 * @returns RecipePublic Successful Response
-	 * @throws ApiError
-	 */
-	public static generateRecipe(
-		data: RecipesGenerateRecipeData,
-	): CancelablePromise<RecipesGenerateRecipeResponse> {
-		return __request(OpenAPI, {
-			method: "POST",
-			url: "/api/v1/recipes/generate",
-			body: data.requestBody,
-			mediaType: "application/json",
-			errors: {
-				422: "Validation Error",
-			},
-		});
-	}
-
-	/**
 	 * Improve Recipe
 	 * Improve (modify) an existing recipe with user instructions and AI assistance.
 	 * 1. Fetch the original recipe.
@@ -376,6 +326,48 @@ export class RecipesService {
 			path: {
 				id: data.id,
 			},
+			body: data.requestBody,
+			mediaType: "application/json",
+			errors: {
+				422: "Validation Error",
+			},
+		});
+	}
+
+	/**
+	 * Generate Recipe
+	 * @param data The data for the request.
+	 * @param data.requestBody
+	 * @returns RecipePublic Successful Response
+	 * @throws ApiError
+	 */
+	public static generateRecipe(
+		data: RecipesGenerateRecipeData,
+	): CancelablePromise<RecipesGenerateRecipeResponse> {
+		return __request(OpenAPI, {
+			method: "POST",
+			url: "/api/v1/recipes/generate",
+			body: data.requestBody,
+			mediaType: "application/json",
+			errors: {
+				422: "Validation Error",
+			},
+		});
+	}
+
+	/**
+	 * Generate Recipe Public
+	 * @param data The data for the request.
+	 * @param data.requestBody
+	 * @returns RecipePublic Successful Response
+	 * @throws ApiError
+	 */
+	public static generateRecipePublic(
+		data: RecipesGenerateRecipePublicData,
+	): CancelablePromise<RecipesGenerateRecipePublicResponse> {
+		return __request(OpenAPI, {
+			method: "POST",
+			url: "/api/v1/recipes/generate-public",
 			body: data.requestBody,
 			mediaType: "application/json",
 			errors: {

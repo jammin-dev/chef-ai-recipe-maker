@@ -30,6 +30,7 @@ function HomePage(): JSX.Element {
 	const { isAuthenticated } = useAuth();
 
 	const lang = i18n.language.slice(0, 2) as "en" | "fr";
+	const recipeLanguage = localStorage.getItem("i18nextLng");
 
 	const handleSend = async (): Promise<void> => {
 		setIsLoading(true);
@@ -37,7 +38,7 @@ function HomePage(): JSX.Element {
 
 		try {
 			const body = {
-				requestBody: { user_input: userInput },
+				requestBody: { user_input: userInput, language: recipeLanguage },
 			};
 			const newRecipe = isAuthenticated
 				? await RecipesService.generateRecipe(body)
