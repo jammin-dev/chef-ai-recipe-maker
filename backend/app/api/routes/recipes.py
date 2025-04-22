@@ -270,7 +270,7 @@ def improve_recipe(
 
     # 3. Prepare and send to OpenAI
     payload = {
-        "model": "gpt-4o-mini",
+        "model": "gpt-4o-mini-search-preview",
         "messages": [
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt},

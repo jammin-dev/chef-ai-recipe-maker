@@ -120,7 +120,7 @@ class RecipeAIService:
         final_prompt = self._build_prompt(user_input, meta["name"], meta["units"])
 
         payload = {
-            "model": "gpt-4o",
+            "model": "gpt-4o-mini-search-preview",
             "messages": [
                 {
                     "role": "system",
