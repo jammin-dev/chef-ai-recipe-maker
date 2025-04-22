@@ -1,8 +1,10 @@
 # api/routers/recipes.py
+import json
 from typing import Any, Annotated
 import uuid
 
 from fastapi import APIRouter, Body, HTTPException, Request
+import requests
 from sqlmodel import Session, delete, func, select
 
 from app.api.deps import CurrentUser, SessionDep
@@ -16,11 +18,13 @@ from app.schemas.recipe_schemas import (
 )
 from app.schemas.schemas import Message
 from app.services.recipe_services import RecipeAIService
+from app.core.config import settings
 
 router = APIRouter(prefix="/recipes", tags=["recipes"])
 ai_service = RecipeAIService()  # can be reused across requests
 
-
+OPENAI_URL = "https://api.openai.com/v1/chat/completions"
+OPENAI_API_KEY = settings.OPENAI_API_KEY
 # --------------------------------------------------------------------------- #
 #                                 CRUD routes                                 #
 # --------------------------------------------------------------------------- #
@@ -194,10 +198,11 @@ def delete_recipe(
 @router.post("/generate", response_model=RecipePublic)
 def generate_recipe(
     *,
+    request: Request,
     session: SessionDep,
     current_user: CurrentUser,
     user_input: str = Body(..., embed=True),
-    language: str =  Body(..., embed=True),
+    language: str =  Body("fr", embed=True),
 ) -> RecipePublic:
     """
     Generate a recipe via OpenAI, storing the result.
@@ -231,3 +236,67 @@ def generate_recipe_public(
         user_input=user_input,
         user_lang=language,
     )
+
+
+
+
+@router.post("/{id}/improve",)
+def improve_recipe(
+    *,
+    session: SessionDep,
+    current_user: CurrentUser,
+    id: uuid.UUID,
+    user_input: str = Body(..., embed=True),
+):
+    """
+    Improve (modify) an existing recipe with user instructions and AI assistance.
+    1. Fetch the original recipe.
+    2. Build a prompt with the original recipe + user instructions.
+    3. Send prompt to OpenAI, parse the improved recipe JSON.
+    4. Update the recipe in the DB.
+    5. Return the updated recipe in the public schema.
+    """
+    # 1. Fetch the existing recipe
+    original_recipe = session.get(Recipe, id)
+    if not original_recipe:
+        raise HTTPException(status_code=404, detail="Recipe not found")
+
+    # Make sure the user has permission
+    if not current_user.is_superuser and original_recipe.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+
+    # 2. Build the improvement prompt
+    prompt = ai_service.build_improvement_prompt(user_input, original_recipe)
+
+    # 3. Prepare and send to OpenAI
+    payload = {
+        "model": "gpt-4o-mini",
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ],
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {OPENAI_API_KEY}",
+    }
+    response = requests.post(OPENAI_URL, json=payload, headers=headers)
+    if response.status_code != 200:
+        raise HTTPException(status_code=500, detail="OpenAI API call failed")
+
+    data = response.json()
+    ai_response = data["choices"][0]["message"]["content"].strip()
+    
+    # 4. Parse the returned JSON (the improved recipe)
+    cleaned_response = ai_response.replace("```json", "").replace("```", "")
+    try:
+        improved_data = json.loads(cleaned_response)
+        improved_data["id"] = original_recipe.id
+        improved_data["is_favorite"] = original_recipe.is_favorite
+        improved_data["is_improved"] = True
+        return improved_data
+    except Exception:
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to parse improved recipe JSON from OpenAI response."
+        )

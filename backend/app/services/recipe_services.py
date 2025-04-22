@@ -192,3 +192,48 @@ class RecipeAIService:
         except Exception as exc:
             session.rollback()
             raise RuntimeError(f"Recipe creation failed: {exc}") from exc
+    
+    @staticmethod
+    def build_improvement_prompt(user_input: str, original_recipe: Recipe) -> str:
+        """
+        Replicates your front-end prompt to improve a given recipe.
+        We embed the original recipe and user instructions.
+        """
+        return f"""
+        Améliore la recette suivante au format JSON
+
+        La recette originale est : {json.dumps({
+            "title": original_recipe.title,
+            "description": original_recipe.description,
+            "preparation_time": original_recipe.preparation_time,
+            "cook_time": original_recipe.cook_time,
+            "serves": original_recipe.serves,
+            "ingredients": [{"content": ing.content, "index": ing.index} for ing in original_recipe.ingredients],
+            "directions": [{"content": dir.content, "index": dir.index} for dir in original_recipe.directions],
+        }, ensure_ascii=False)}
+
+        L'amélioration doit être : {user_input}
+
+        Exemple de structure JSON attendue :
+
+        {{
+        "title": "Titre de la recette (str)",
+        "description": "Description de la recette (str, max 200 caractères)",
+        "preparation_time": "Temps de préparation en minutes (int)",
+        "cook_time": "Temps de cuisson en minutes (int, 0 if not applicable)",
+        "serves": "Nombre de portions (int)",
+        "ingredients": [
+            {{ "content": "Nom de l'ingrédient, quantité", "index": 0 }},
+            ...
+        ],
+        "directions": [
+            {{ "content": "Instruction détaillée, quantité", "index": 0 }},
+            ...
+        ]
+        }}
+
+        Renvoie exactement les mêmes champs que la recette originale,
+        mais avec les modifications apportées, au format JSON.
+
+        Renvoyez uniquement le JSON brut.
+        """
