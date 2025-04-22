@@ -49,7 +49,7 @@ const RecipePage: React.FC = ({ guest }) => {
 	const { toHome } = useNavigateTo();
 	// React Router hook to get the passed-in recipe from location state
 	const { id } = useParams<{ id: string }>();
-	const { isAuthenticated } = useAuth();
+	const { isAuthenticated, user } = useAuth();
 	const { t } = useTranslation();
 
 	useEffect(() => {
@@ -153,6 +153,14 @@ const RecipePage: React.FC = ({ guest }) => {
 	return (
 		<>
 			<Card className="w-full max-w-6xl border-none">
+				{user?.is_superuser && recipeToDisplay?.user && (
+					<div className="flex justify-end mr-5">
+						<p className="text-sm text-gray-500">
+							{recipeToDisplay.user.email}
+						</p>
+					</div>
+				)}
+				{/* ------------------ Recipe Actions ------------------ */}
 				<RecipeActions
 					recipe={recipeToDisplay}
 					setRecipe={setCurrentRecipe}

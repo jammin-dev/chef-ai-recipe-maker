@@ -1,6 +1,7 @@
 import datetime
 import uuid
 
+from app.schemas.user_schemas import UserPublic
 from sqlmodel import Field, SQLModel
 
 class IngredientBase(SQLModel):
@@ -66,6 +67,7 @@ class RecipePublic(RecipeBase):
     directions: list[DirectionPublic] = []
     created_at: datetime.datetime
     updated_at: datetime.datetime
+    user: UserPublic | None = None
 
 class RecipesPublic(SQLModel):
     data: list[RecipePublic]
