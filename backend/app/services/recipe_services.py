@@ -8,7 +8,7 @@ from app.core.config import settings
 from app.models import Direction, Ingredient, Recipe, User
 from app.schemas.recipe_schemas import RecipeCreate
 
-OPENAI_URL = "https://api.openai.com/v1/chat/completions/"
+OPENAI_URL = "https://api.openai.com/v1/chat/completions"
 OPENAI_API_KEY = settings.OPENAI_API_KEY
 
 
@@ -120,7 +120,7 @@ class RecipeAIService:
         final_prompt = self._build_prompt(user_input, meta["name"], meta["units"])
 
         payload = {
-            "model": "gpt-4o-mini-search-preview",
+            "model": "gpt-4o",
             "messages": [
                 {
                     "role": "system",
