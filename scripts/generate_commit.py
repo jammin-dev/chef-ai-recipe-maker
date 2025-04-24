@@ -84,15 +84,18 @@ client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
+
 def get_diff(base="HEAD", staged=True):
     args = ["git", "diff", "--cached"] if staged else ["git", "diff", base]
     result = subprocess.run(args, capture_output=True, text=True)
     return result.stdout
+
+
 #
 def generate_commit_message(user_input, diff):
-    gitmoji_examples = "\n".join(
-        [f"- {key}: {value}" for key, value in gitmoji.items()]
-    )
+    # gitmoji_examples = "\n".join(
+    #     [f"- {key}: {value}" for key, value in gitmoji.items()]
+    # )
 
     prompt = f"""
     Given the following Git diff, generate a concise and meaningful commit message using the Gitmoji format.
@@ -111,7 +114,7 @@ def generate_commit_message(user_input, diff):
 
     User explanation:
     {user_input}
-    
+
     Git diff:
     {diff}
     """
@@ -124,6 +127,7 @@ def generate_commit_message(user_input, diff):
 
     return response.output_text.strip()
 
+
 def main():
     user_input = input("📝 Describe the commit you're making (in plain language):\n> ")
 
@@ -134,6 +138,7 @@ def main():
 
     commit_message = generate_commit_message(user_input, staged_diff)
     print(f"\n✅ Suggested commit message:\n{commit_message}")
+
 
 if __name__ == "__main__":
     main()

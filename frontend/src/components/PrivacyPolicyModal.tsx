@@ -21,22 +21,22 @@ export function PrivacyPolicyModal({ open, setOpen }) {
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
-			{/* 
+			{/*
         TRIGGER
-        Replace this with your own icon or element 
-        (e.g., a suitcase/valise icon) 
+        Replace this with your own icon or element
+        (e.g., a suitcase/valise icon)
       */}
 			{/* <DialogTrigger asChild>
 				<Button variant="outline">Open Privacy Policy</Button>
 			</DialogTrigger> */}
 
-			{/* 
+			{/*
         CONTENT
-        You can style maxWidth, height, etc. as needed 
+        You can style maxWidth, height, etc. as needed
       */}
 			<DialogContent className="max-w-3xl h-screen md:h-11/12">
-				{/* 
-          Close button (the cross) at top-right 
+				{/*
+          Close button (the cross) at top-right
         */}
 				<button
 					onClick={() => setOpen(false)}
@@ -53,9 +53,9 @@ export function PrivacyPolicyModal({ open, setOpen }) {
 					</DialogDescription>
 				</DialogHeader>
 
-				{/* 
+				{/*
           SCROLLABLE CONTENT
-          Make this container scrollable for large texts. 
+          Make this container scrollable for large texts.
         */}
 				<div className="h-full overflow-y-auto pr-2">
 					{/* ----------------------- ENGLISH ----------------------- */}
@@ -265,8 +265,8 @@ export function PrivacyPolicyModal({ open, setOpen }) {
 					</p>
 				</div>
 
-				{/* 
-          FOOTER with OK button 
+				{/*
+          FOOTER with OK button
         */}
 				<DialogFooter>
 					<Button onClick={() => setOpen(false)}>OK</Button>

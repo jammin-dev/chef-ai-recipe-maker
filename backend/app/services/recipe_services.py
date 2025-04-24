@@ -1,5 +1,4 @@
 import json
-from typing import Dict
 
 import requests
 from sqlmodel import Session
@@ -115,7 +114,9 @@ class RecipeAIService:
         """
         Create a recipe via OpenAI, store and return it.
         """
-        meta = self.LANGUAGE_META.get(user_lang, {"name": "English", "units": "imperial"})
+        meta = self.LANGUAGE_META.get(
+            user_lang, {"name": "English", "units": "imperial"}
+        )
         pre_prompt = self._build_pre_prompt(user_input, meta["name"])
         final_prompt = self._build_prompt(user_input, meta["name"], meta["units"])
 
@@ -136,26 +137,29 @@ class RecipeAIService:
         recipe_create = RecipeCreate(**arguments)
         return self._persist_recipe(session, current_user, recipe_create)
 
-
     @classmethod
     def _build_prompt(cls, request: str, output_lang: str, unit_system: str) -> str:
         lang_key = output_lang.lower()
-        prompt_template = cls._PROMPT_TEMPLATES.get(lang_key, cls._PROMPT_TEMPLATES["english"])
+        prompt_template = cls._PROMPT_TEMPLATES.get(
+            lang_key, cls._PROMPT_TEMPLATES["english"]
+        )
         return prompt_template.format(request=request, units=unit_system)
 
     @classmethod
     def _build_pre_prompt(cls, request: str, output_lang: str) -> str:
         lang_key = output_lang.lower()
-        return cls._PRE_PROMPT_TEMPLATES.get(lang_key, cls._PRE_PROMPT_TEMPLATES["english"])
+        return cls._PRE_PROMPT_TEMPLATES.get(
+            lang_key, cls._PRE_PROMPT_TEMPLATES["english"]
+        )
 
     @staticmethod
-    def _headers() -> Dict[str, str]:
+    def _headers() -> dict[str, str]:
         return {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {OPENAI_API_KEY}",
         }
 
-    def _call_openai(self, payload: Dict) -> Dict:
+    def _call_openai(self, payload: dict) -> dict:
         resp = requests.post(OPENAI_URL, json=payload, headers=self._headers())
         resp.raise_for_status()
         try:
@@ -192,7 +196,7 @@ class RecipeAIService:
         except Exception as exc:
             session.rollback()
             raise RuntimeError(f"Recipe creation failed: {exc}") from exc
-    
+
     @staticmethod
     def build_improvement_prompt(user_input: str, original_recipe: Recipe) -> str:
         """

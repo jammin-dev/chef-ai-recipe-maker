@@ -1,30 +1,32 @@
 # api/routers/recipes.py
 import json
-from typing import Any, Annotated
 import uuid
+from typing import Annotated, Any
 
-from fastapi import APIRouter, Body, HTTPException, Request
 import requests
-from sqlmodel import Session, delete, func, select
+from fastapi import APIRouter, Body, HTTPException, Request
+from sqlmodel import delete, func, select
 
 from app.api.deps import CurrentUser, SessionDep
+from app.core.config import settings
 from app.core.rate_limit import limiter
 from app.models import Direction, Ingredient, Recipe, User
 from app.schemas.recipe_schemas import (
     RecipeCreate,
     RecipePublic,
-    RecipeUpdate,
     RecipesPublic,
+    RecipeUpdate,
 )
 from app.schemas.schemas import Message
 from app.services.recipe_services import RecipeAIService
-from app.core.config import settings
 
 router = APIRouter(prefix="/recipes", tags=["recipes"])
 ai_service = RecipeAIService()  # can be reused across requests
 
 OPENAI_URL = "https://api.openai.com/v1/chat/completions"
 OPENAI_API_KEY = settings.OPENAI_API_KEY
+
+
 # --------------------------------------------------------------------------- #
 #                                 CRUD routes                                 #
 # --------------------------------------------------------------------------- #
@@ -42,9 +44,7 @@ def read_recipes(
     if not current_user.is_superuser:
         base_stmt = base_stmt.where(Recipe.user_id == current_user.id)
 
-    count = session.exec(
-        select(func.count()).select_from(base_stmt.subquery())
-    ).one()
+    count = session.exec(select(func.count()).select_from(base_stmt.subquery())).one()
 
     recipes = session.exec(base_stmt.offset(skip).limit(limit)).all()
     return RecipesPublic(data=recipes, count=count)
@@ -112,9 +112,7 @@ def create_recipe(
         session.refresh(recipe)
 
         for ing in recipe_in.ingredients or []:
-            session.add(
-                Ingredient.model_validate(ing, update={"recipe_id": recipe.id})
-            )
+            session.add(Ingredient.model_validate(ing, update={"recipe_id": recipe.id}))
         for direc in recipe_in.directions or []:
             session.add(
                 Direction.model_validate(direc, update={"recipe_id": recipe.id})
@@ -156,16 +154,12 @@ def update_recipe(
     if ingredients_data is not None:
         session.exec(delete(Ingredient).where(Ingredient.recipe_id == recipe.id))
         for ing in ingredients_data:
-            session.add(
-                Ingredient.model_validate(ing, update={"recipe_id": recipe.id})
-            )
+            session.add(Ingredient.model_validate(ing, update={"recipe_id": recipe.id}))
 
     if directions_data is not None:
         session.exec(delete(Direction).where(Direction.recipe_id == recipe.id))
         for dir_ in directions_data:
-            session.add(
-                Direction.model_validate(dir_, update={"recipe_id": recipe.id})
-            )
+            session.add(Direction.model_validate(dir_, update={"recipe_id": recipe.id}))
 
     session.commit()
     session.refresh(recipe)
@@ -198,11 +192,10 @@ def delete_recipe(
 @router.post("/generate", response_model=RecipePublic)
 def generate_recipe(
     *,
-    request: Request,
     session: SessionDep,
     current_user: CurrentUser,
     user_input: str = Body(..., embed=True),
-    language: str =  Body("fr", embed=True),
+    language: str = Body("fr", embed=True),
 ) -> RecipePublic:
     """
     Generate a recipe via OpenAI, storing the result.
@@ -219,7 +212,7 @@ def generate_recipe(
 @limiter.limit("100/day")
 def generate_recipe_public(
     *,
-    request: Request,
+    request: Request,  # Required for rate limiter but unused in function body  # noqa: ARG001
     session: SessionDep,
     user_input: str = Body(..., embed=True),
     language: str = Body("fr", embed=True),
@@ -238,9 +231,9 @@ def generate_recipe_public(
     )
 
 
-
-
-@router.post("/{id}/improve",)
+@router.post(
+    "/{id}/improve",
+)
 def improve_recipe(
     *,
     session: SessionDep,
@@ -286,7 +279,7 @@ def improve_recipe(
 
     data = response.json()
     ai_response = data["choices"][0]["message"]["content"].strip()
-    
+
     # 4. Parse the returned JSON (the improved recipe)
     cleaned_response = ai_response.replace("```json", "").replace("```", "")
     try:
@@ -298,5 +291,5 @@ def improve_recipe(
     except Exception:
         raise HTTPException(
             status_code=500,
-            detail="Failed to parse improved recipe JSON from OpenAI response."
+            detail="Failed to parse improved recipe JSON from OpenAI response.",
         )

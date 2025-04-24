@@ -1,6 +1,8 @@
 import uuid
+
 from pydantic import EmailStr
 from sqlmodel import Field, SQLModel
+
 
 # Shared properties
 class UserBase(SQLModel):

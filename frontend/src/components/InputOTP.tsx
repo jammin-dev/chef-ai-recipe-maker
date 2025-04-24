@@ -4,7 +4,7 @@ import {
     InputOTPSeparator,
     InputOTPSlot,
   } from "@/components/ui/input-otp"
-  
+
   export function InputOTPComponent() {
     return (
       <InputOTP maxLength={6}>
@@ -22,4 +22,3 @@ import {
       </InputOTP>
     )
   }
-  

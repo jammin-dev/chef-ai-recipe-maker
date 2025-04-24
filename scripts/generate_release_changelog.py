@@ -4,81 +4,82 @@ import sys
 
 # Mapping each commit emoji to a release category.
 RELEASE_CATEGORIES = {
-    "🎨": "Improvements",             # Improve structure / format of the code.
-    "⚡️": "Improvements",             # Improve performance.
-    "🔥": "Maintenance",               # Remove code or files.
-    "🐛": "Bug Fixes",                 # Fix a bug.
-    "🚑️": "Bug Fixes",                # Critical hotfix.
-    "✨": "Features",                  # Introduce new features.
-    "📝": "Documentation",             # Add or update documentation.
-    "🚀": "Features",                  # Deploy stuff.
-    "💄": "Improvements",                  # Add or update the UI and style files.
-    "🎉": "Features",                  # Begin a project.
-    "✅": "Tests",                     # Add, update, or pass tests.
-    "🔒️": "Bug Fixes",                # Fix security or privacy issues.
-    "🔐": "Maintenance",               # Add or update secrets.
-    "🔖": "Maintenance",               # Release / Version tags.
-    "🚨": "Bug Fixes",                # Fix compiler / linter warnings.
-    "🚧": "Maintenance",               # Work in progress.
-    "💚": "Bug Fixes",                 # Fix CI Build.
-    "⬇️": "Maintenance",              # Downgrade dependencies.
-    "⬆️": "Maintenance",              # Upgrade dependencies.
-    "📌": "Maintenance",              # Pin dependencies to specific versions.
-    "👷": "Maintenance",              # Add or update CI build system.
-    "📈": "Features",                 # Add or update analytics or tracking.
-    "♻️": "Improvements",             # Refactor code.
-    "➕": "Maintenance",              # Add a dependency.
-    "➖": "Maintenance",              # Remove a dependency.
-    "🔧": "Maintenance",              # Add or update configuration files.
-    "🔨": "Maintenance",              # Add or update development scripts.
-    "🌐": "Improvements",                 # Internationalization and localization.
-    "✏️": "Bug Fixes",                # Fix typos.
-    "💩": "Maintenance",              # Write bad code that needs to be improved.
-    "⏪️": "Maintenance",              # Revert changes.
-    "🔀": "Maintenance",              # Merge branches.
-    "📦️": "Maintenance",             # Add or update compiled files or packages.
-    "👽️": "Bug Fixes",                # Update code due to external API changes.
-    "🚚": "Maintenance",              # Move or rename resources.
-    "📄": "Documentation",            # Add or update license.
-    "💥": "Breaking Changes",         # Introduce breaking changes.
-    "🍱": "Features",                 # Add or update assets.
-    "♿️": "Improvements",             # Improve accessibility.
-    "💡": "Maintenance",              # Add or update comments in source code.
-    "🍻": "Maintenance",              # Write code drunkenly.
-    "💬": "Features",                 # Add or update text and literals.
-    "🗃️": "Maintenance",             # Perform database related changes.
-    "🔊": "Maintenance",              # Add or update logs.
-    "🔇": "Maintenance",              # Remove logs.
-    "👥": "Maintenance",              # Add or update contributor(s).
-    "🚸": "Improvements",             # Improve user experience / usability.
-    "🏗️": "Improvements",             # Make architectural changes.
-    "📱": "Improvements",             # Work on responsive design.
-    "🤡": "Maintenance",              # Mock things.
-    "🥚": "Features",                 # Add or update an easter egg.
-    "🙈": "Maintenance",              # Add or update a .gitignore file.
-    "📸": "Tests",                    # Add or update snapshots.
-    "⚗️": "Maintenance",              # Perform experiments.
-    "🔍️": "Improvements",             # Improve SEO.
-    "🏷️": "Maintenance",             # Add or update types.
-    "🌱": "Maintenance",              # Add or update seed files.
-    "🚩": "Features",                 # Add, update, or remove feature flags.
-    "🥅": "Bug Fixes",                # Catch errors.
-    "💫": "Improvements",             # Add or update animations and transitions.
-    "🗑️": "Maintenance",             # Deprecate code that needs to be cleaned up.
-    "🛂": "Features",                 # Work on code related to authorization.
-    "🩹": "Bug Fixes",                # Simple fix for a non-critical issue.
-    "🧐": "Maintenance",              # Data exploration/inspection.
-    "⚰️": "Maintenance",              # Remove dead code.
-    "🧪": "Tests",                    # Add a failing test.
-    "👔": "Features",                 # Add or update business logic.
-    "🩺": "Maintenance",              # Add or update healthcheck.
-    "🧱": "Maintenance",              # Infrastructure related changes.
-    "🧑‍💻": "Improvements",           # Improve developer experience.
-    "💸": "Features",                 # Add sponsorships or money related infrastructure.
-    "🧵": "Improvements",             # Add or update code related to multithreading.
-    "🦺": "Improvements",             # Add or update code related to validation.
-    "✈️": "Improvements"              # Improve offline support.
+    "🎨": "Improvements",  # Improve structure / format of the code.
+    "⚡️": "Improvements",  # Improve performance.
+    "🔥": "Maintenance",  # Remove code or files.
+    "🐛": "Bug Fixes",  # Fix a bug.
+    "🚑️": "Bug Fixes",  # Critical hotfix.
+    "✨": "Features",  # Introduce new features.
+    "📝": "Documentation",  # Add or update documentation.
+    "🚀": "Features",  # Deploy stuff.
+    "💄": "Improvements",  # Add or update the UI and style files.
+    "🎉": "Features",  # Begin a project.
+    "✅": "Tests",  # Add, update, or pass tests.
+    "🔒️": "Bug Fixes",  # Fix security or privacy issues.
+    "🔐": "Maintenance",  # Add or update secrets.
+    "🔖": "Maintenance",  # Release / Version tags.
+    "🚨": "Bug Fixes",  # Fix compiler / linter warnings.
+    "🚧": "Maintenance",  # Work in progress.
+    "💚": "Bug Fixes",  # Fix CI Build.
+    "⬇️": "Maintenance",  # Downgrade dependencies.
+    "⬆️": "Maintenance",  # Upgrade dependencies.
+    "📌": "Maintenance",  # Pin dependencies to specific versions.
+    "👷": "Maintenance",  # Add or update CI build system.
+    "📈": "Features",  # Add or update analytics or tracking.
+    "♻️": "Improvements",  # Refactor code.
+    "➕": "Maintenance",  # Add a dependency.
+    "➖": "Maintenance",  # Remove a dependency.
+    "🔧": "Maintenance",  # Add or update configuration files.
+    "🔨": "Maintenance",  # Add or update development scripts.
+    "🌐": "Improvements",  # Internationalization and localization.
+    "✏️": "Bug Fixes",  # Fix typos.
+    "💩": "Maintenance",  # Write bad code that needs to be improved.
+    "⏪️": "Maintenance",  # Revert changes.
+    "🔀": "Maintenance",  # Merge branches.
+    "📦️": "Maintenance",  # Add or update compiled files or packages.
+    "👽️": "Bug Fixes",  # Update code due to external API changes.
+    "🚚": "Maintenance",  # Move or rename resources.
+    "📄": "Documentation",  # Add or update license.
+    "💥": "Breaking Changes",  # Introduce breaking changes.
+    "🍱": "Features",  # Add or update assets.
+    "♿️": "Improvements",  # Improve accessibility.
+    "💡": "Maintenance",  # Add or update comments in source code.
+    "🍻": "Maintenance",  # Write code drunkenly.
+    "💬": "Features",  # Add or update text and literals.
+    "🗃️": "Maintenance",  # Perform database related changes.
+    "🔊": "Maintenance",  # Add or update logs.
+    "🔇": "Maintenance",  # Remove logs.
+    "👥": "Maintenance",  # Add or update contributor(s).
+    "🚸": "Improvements",  # Improve user experience / usability.
+    "🏗️": "Improvements",  # Make architectural changes.
+    "📱": "Improvements",  # Work on responsive design.
+    "🤡": "Maintenance",  # Mock things.
+    "🥚": "Features",  # Add or update an easter egg.
+    "🙈": "Maintenance",  # Add or update a .gitignore file.
+    "📸": "Tests",  # Add or update snapshots.
+    "⚗️": "Maintenance",  # Perform experiments.
+    "🔍️": "Improvements",  # Improve SEO.
+    "🏷️": "Maintenance",  # Add or update types.
+    "🌱": "Maintenance",  # Add or update seed files.
+    "🚩": "Features",  # Add, update, or remove feature flags.
+    "🥅": "Bug Fixes",  # Catch errors.
+    "💫": "Improvements",  # Add or update animations and transitions.
+    "🗑️": "Maintenance",  # Deprecate code that needs to be cleaned up.
+    "🛂": "Features",  # Work on code related to authorization.
+    "🩹": "Bug Fixes",  # Simple fix for a non-critical issue.
+    "🧐": "Maintenance",  # Data exploration/inspection.
+    "⚰️": "Maintenance",  # Remove dead code.
+    "🧪": "Tests",  # Add a failing test.
+    "👔": "Features",  # Add or update business logic.
+    "🩺": "Maintenance",  # Add or update healthcheck.
+    "🧱": "Maintenance",  # Infrastructure related changes.
+    "🧑‍💻": "Improvements",  # Improve developer experience.
+    "💸": "Features",  # Add sponsorships or money related infrastructure.
+    "🧵": "Improvements",  # Add or update code related to multithreading.
+    "🦺": "Improvements",  # Add or update code related to validation.
+    "✈️": "Improvements",  # Improve offline support.
 }
+
 
 def get_previous_tag():
     """
@@ -90,14 +91,15 @@ def get_previous_tag():
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            check=True
+            check=True,
         )
-        tags = result.stdout.strip().split('\n')
+        tags = result.stdout.strip().split("\n")
         if len(tags) < 2:
             sys.exit("Not enough tags in the repository to find a previous one.")
         return tags[1]  # Second tag is the previous one
     except subprocess.CalledProcessError as e:
         sys.exit(f"Error retrieving tags:\n{e.stderr}")
+
 
 def get_repo_url():
     """
@@ -109,7 +111,7 @@ def get_repo_url():
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            check=True
+            check=True,
         )
         repo_url = result.stdout.strip()
         if repo_url.startswith("git@github.com:"):
@@ -120,6 +122,7 @@ def get_repo_url():
     except subprocess.CalledProcessError:
         print("Warning: Could not retrieve remote repository URL.")
         return None
+
 
 def get_git_commits(start_version):
     """
@@ -132,7 +135,7 @@ def get_git_commits(start_version):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            check=True
+            check=True,
         )
         commits = []
         for line in result.stdout.strip().split("\n"):
@@ -144,6 +147,7 @@ def get_git_commits(start_version):
         return commits
     except subprocess.CalledProcessError as e:
         sys.exit(f"Error retrieving git commits:\n{e.stderr}")
+
 
 def categorize_commits(commits, mapping):
     """
@@ -159,9 +163,9 @@ def categorize_commits(commits, mapping):
         "Tests": [],
         "Maintenance": [],
         "Breaking Changes": [],
-        "Others": []
+        "Others": [],
     }
-    
+
     for commit in commits:
         subject = commit["subject"]
         emoji_found = None
@@ -180,10 +184,11 @@ def categorize_commits(commits, mapping):
         categorized[commit["category"]].append(commit)
     return categorized
 
+
 def write_changelog(categorized, repo_url, output_file="./CHANGELOG.md"):
     """
     Writes a Markdown changelog grouping commits by release category.
-    Each commit is formatted as: 
+    Each commit is formatted as:
     - emoji commit message ([short_hash](repo_url/commit/full_hash))
     """
     with open(output_file, "w", encoding="utf-8") as f:
@@ -196,7 +201,7 @@ def write_changelog(categorized, repo_url, output_file="./CHANGELOG.md"):
             "Tests",
             "Maintenance",
             "Breaking Changes",
-            "Others"
+            "Others",
         ]
         for category in order:
             commits = categorized.get(category, [])
@@ -206,11 +211,14 @@ def write_changelog(categorized, repo_url, output_file="./CHANGELOG.md"):
                     full_hash = commit["hash"]
                     short_hash = full_hash[:7]
                     subject = commit["subject"]
-                    emoji = commit["emoji"]
-                    line = f"- {subject} ([{short_hash}]({repo_url}/commit/{full_hash}))\n"
+                    # emoji = commit["emoji"]
+                    line = (
+                        f"- {subject} ([{short_hash}]({repo_url}/commit/{full_hash}))\n"
+                    )
                     f.write(line)
                 f.write("\n")
     print(f"Changelog written to {output_file}")
+
 
 def main():
     latest_tag = get_previous_tag()
@@ -222,6 +230,7 @@ def main():
     commits = get_git_commits(latest_tag)
     categorized = categorize_commits(commits, RELEASE_CATEGORIES)
     write_changelog(categorized, repo_url)
+
 
 if __name__ == "__main__":
     main()
