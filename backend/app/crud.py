@@ -1,3 +1,4 @@
+import datetime
 from typing import Any
 
 from sqlmodel import Session, select
@@ -47,6 +48,14 @@ def authenticate(*, session: Session, email: str, password: str) -> User | None:
         return None
     if not verify_password(password, db_user.hashed_password):
         return None
+    return db_user
+
+
+def delete_user(*, session: Session, db_user: User) -> User:
+    db_user.deleted_at = datetime.datetime.now()
+    session.add(db_user)
+    session.commit()
+    session.refresh(db_user)
     return db_user
 
 

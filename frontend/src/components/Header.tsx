@@ -1,6 +1,6 @@
 import Title from "@/components/Title";
 import { useSidebar } from "@/components/ui/sidebar";
-import { LogOut, PanelLeftIcon, Sparkles, SquarePen, User } from "lucide-react";
+import { LogOut, PanelLeftIcon, Settings, SquarePen, User } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
 import { Button } from "./ui/button";
 import { useNavigateTo } from "@/hooks/use-navigate-to";
@@ -16,12 +16,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { useTranslation } from "react-i18next";
-import i18n from "@/i18n";
+
+import { useState } from "react";
+import { UserSettingsDialog } from "./UserSettingsDialog";
 
 const Header = () => {
 	const { toggleSidebar } = useSidebar();
 	const { toHome, toLogin } = useNavigateTo();
 	const { openLoginDialogIfGuest, isAuthenticated, user, signOut } = useAuth();
+	const [openUserSettings, setOpenUserSettings] = useState(false);
 	const { t } = useTranslation();
 
 	const handleToggleSidebar = () => {
@@ -69,25 +72,36 @@ const Header = () => {
 										</div>
 									</div>
 								</DropdownMenuLabel>
-								<DropdownMenuSeparator />
-								<DropdownMenuGroup>
+								{/* <DropdownMenuSeparator /> */}
+								{/* <DropdownMenuGroup>
 									<DropdownMenuItem>
 										<Sparkles />
 										{t("Upgrade to Plus")}
 									</DropdownMenuItem>
+								</DropdownMenuGroup> */}
+								<DropdownMenuSeparator />
+								<DropdownMenuGroup>
+									<DropdownMenuItem onClick={() => setOpenUserSettings(true)}>
+										<Settings />
+										{t("header.userSettings")}
+									</DropdownMenuItem>
 								</DropdownMenuGroup>
 								<DropdownMenuSeparator />
-								<DropdownMenuSeparator />
-								<DropdownMenuItem onClick={() => i18n.changeLanguage("fr")}>
-									🇫🇷{"  "}Français
-								</DropdownMenuItem>
-								<DropdownMenuItem onClick={() => i18n.changeLanguage("en")}>
-									🇬🇧{"  "}English
-								</DropdownMenuItem>
-								<DropdownMenuItem onClick={signOut}>
-									<LogOut />
-									{t("Log out")}
-								</DropdownMenuItem>
+								{/* <DropdownMenuGroup>
+									<DropdownMenuItem onClick={() => i18n.changeLanguage("fr")}>
+										🇫🇷{"  "}Français
+									</DropdownMenuItem>
+									<DropdownMenuItem onClick={() => i18n.changeLanguage("en")}>
+										🇬🇧{"  "}English
+									</DropdownMenuItem>
+								</DropdownMenuGroup>
+								<DropdownMenuSeparator /> */}
+								<DropdownMenuGroup>
+									<DropdownMenuItem onClick={signOut}>
+										<LogOut />
+										{t("Log out")}
+									</DropdownMenuItem>
+								</DropdownMenuGroup>
 							</DropdownMenuContent>
 						</DropdownMenu>
 					) : (
@@ -97,6 +111,10 @@ const Header = () => {
 					)}
 				</div>
 			</div>
+			<UserSettingsDialog
+				open={openUserSettings}
+				setOpen={setOpenUserSettings}
+			/>
 		</>
 	);
 };

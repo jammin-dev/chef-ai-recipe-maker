@@ -11,6 +11,7 @@ from app.schemas.user_schemas import UserBase
 class User(UserBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     hashed_password: str
+    deleted_at: datetime.datetime | None = Field(default=None, nullable=True)
 
     recipes: list["Recipe"] = Relationship(back_populates="user", cascade_delete=True)
 

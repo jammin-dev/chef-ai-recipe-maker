@@ -102,5 +102,43 @@
 		"directions": "Instructions",
 		"addDirection": "Ajouter une instruction",
 		"enjoy": "Bon appétit !"
+	},
+
+	"userSettings": {
+		"title": "Paramètres du compte",
+		"description": "Mettez à jour vos informations ci-dessous.",
+
+		"profileTitle": "Profil",
+		"profileDescription": "Mettez à jour vos informations de base.",
+
+		"languageTitle": "Langue",
+		"languageDescription": "Remarque : il s'agit de la langue de l'application uniquement. Les recettes resteront dans leur langue d'origine.",
+		"languageUpdated": "Langue mise à jour avec succès",
+
+		"securityTitle": "Sécurité",
+		"securityDescription": "Mettez à jour votre mot de passe pour sécuriser votre compte.",
+
+		"profileUpdated": "Profil mis à jour avec succès",
+		"profileUpdateError": "Échec de la mise à jour du profil",
+
+		"dangerZoneTitle": "Zone de danger",
+		"dangerZoneDescription": "Supprimez définitivement votre compte et vos données.",
+
+		"username": "Nom d'utilisateur",
+		"language": "Langue",
+		"currentPassword": "Mot de passe actuel",
+		"newPassword": "Nouveau mot de passe",
+		"confirmPassword": "Confirmez le mot de passe",
+		"deleteAccount": "Supprimer le compte",
+		"confirmDeleteTitle": "Êtes-vous sûr ?",
+		"confirmDeleteText": "Cette action est irréversible. Votre compte sera définitivement supprimé.",
+		"confirmDelete": "Oui, supprimer",
+		"cancel": "Annuler",
+		"save": "Enregistrer",
+		"passwordMismatch": "Les mots de passe ne correspondent pas."
+	},
+
+	"header": {
+		"userSettings": "Paramètres"
 	}
 }

@@ -25,12 +25,12 @@ import type {
 	RecipesUpdateRecipeResponse,
 	RecipesDeleteRecipeData,
 	RecipesDeleteRecipeResponse,
-	RecipesImproveRecipeData,
-	RecipesImproveRecipeResponse,
 	RecipesGenerateRecipeData,
 	RecipesGenerateRecipeResponse,
 	RecipesGenerateRecipePublicData,
 	RecipesGenerateRecipePublicResponse,
+	RecipesImproveRecipeData,
+	RecipesImproveRecipeResponse,
 	UsersReadUsersData,
 	UsersReadUsersResponse,
 	UsersCreateUserData,
@@ -186,7 +186,7 @@ export class PrivateService {
 export class RecipesService {
 	/**
 	 * Read Recipes
-	 * Retrieve recipes.
+	 * Retrieve recipes (owns only, unless superuser).
 	 * @param data The data for the request.
 	 * @param data.skip
 	 * @param data.limit
@@ -211,7 +211,7 @@ export class RecipesService {
 
 	/**
 	 * Create Recipe
-	 * Create new item.
+	 * Create a recipe (manual, not AI).
 	 * @param data The data for the request.
 	 * @param data.requestBody
 	 * @returns RecipePublic Successful Response
@@ -233,7 +233,7 @@ export class RecipesService {
 
 	/**
 	 * Read Recipe
-	 * Get recipe by ID.
+	 * Get a recipe by UUID.
 	 * @param data The data for the request.
 	 * @param data.id
 	 * @returns RecipePublic Successful Response
@@ -256,7 +256,7 @@ export class RecipesService {
 
 	/**
 	 * Update Recipe
-	 * Update a recipe and its ingredients/directions with transaction safety.
+	 * Update an existing recipe (ingredients & directions fully replaced when provided).
 	 * @param data The data for the request.
 	 * @param data.id
 	 * @param data.requestBody
@@ -282,7 +282,7 @@ export class RecipesService {
 
 	/**
 	 * Delete Recipe
-	 * Delete an recipe.
+	 * Delete a recipe.
 	 * @param data The data for the request.
 	 * @param data.id
 	 * @returns Message Successful Response
@@ -297,6 +297,50 @@ export class RecipesService {
 			path: {
 				id: data.id,
 			},
+			errors: {
+				422: "Validation Error",
+			},
+		});
+	}
+
+	/**
+	 * Generate Recipe
+	 * Generate a recipe via OpenAI, storing the result.
+	 * @param data The data for the request.
+	 * @param data.requestBody
+	 * @returns RecipePublic Successful Response
+	 * @throws ApiError
+	 */
+	public static generateRecipe(
+		data: RecipesGenerateRecipeData,
+	): CancelablePromise<RecipesGenerateRecipeResponse> {
+		return __request(OpenAPI, {
+			method: "POST",
+			url: "/api/v1/recipes/generate",
+			body: data.requestBody,
+			mediaType: "application/json",
+			errors: {
+				422: "Validation Error",
+			},
+		});
+	}
+
+	/**
+	 * Generate Recipe Public
+	 * Same as /generate but always under the guest account.
+	 * @param data The data for the request.
+	 * @param data.requestBody
+	 * @returns RecipePublic Successful Response
+	 * @throws ApiError
+	 */
+	public static generateRecipePublic(
+		data: RecipesGenerateRecipePublicData,
+	): CancelablePromise<RecipesGenerateRecipePublicResponse> {
+		return __request(OpenAPI, {
+			method: "POST",
+			url: "/api/v1/recipes/generate-public",
+			body: data.requestBody,
+			mediaType: "application/json",
 			errors: {
 				422: "Validation Error",
 			},
@@ -326,48 +370,6 @@ export class RecipesService {
 			path: {
 				id: data.id,
 			},
-			body: data.requestBody,
-			mediaType: "application/json",
-			errors: {
-				422: "Validation Error",
-			},
-		});
-	}
-
-	/**
-	 * Generate Recipe
-	 * @param data The data for the request.
-	 * @param data.requestBody
-	 * @returns RecipePublic Successful Response
-	 * @throws ApiError
-	 */
-	public static generateRecipe(
-		data: RecipesGenerateRecipeData,
-	): CancelablePromise<RecipesGenerateRecipeResponse> {
-		return __request(OpenAPI, {
-			method: "POST",
-			url: "/api/v1/recipes/generate",
-			body: data.requestBody,
-			mediaType: "application/json",
-			errors: {
-				422: "Validation Error",
-			},
-		});
-	}
-
-	/**
-	 * Generate Recipe Public
-	 * @param data The data for the request.
-	 * @param data.requestBody
-	 * @returns RecipePublic Successful Response
-	 * @throws ApiError
-	 */
-	public static generateRecipePublic(
-		data: RecipesGenerateRecipePublicData,
-	): CancelablePromise<RecipesGenerateRecipePublicResponse> {
-		return __request(OpenAPI, {
-			method: "POST",
-			url: "/api/v1/recipes/generate-public",
 			body: data.requestBody,
 			mediaType: "application/json",
 			errors: {
@@ -440,7 +442,7 @@ export class UsersService {
 
 	/**
 	 * Delete User Me
-	 * Delete own user.
+	 * Delete own user (soft delete).
 	 * @returns Message Successful Response
 	 * @throws ApiError
 	 */

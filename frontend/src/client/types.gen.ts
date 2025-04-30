@@ -88,6 +88,7 @@ export type RecipePublic = {
 	directions?: Array<DirectionPublic>;
 	created_at: string;
 	updated_at: string;
+	user?: UserPublic | null;
 };
 
 export type RecipesPublic = {
@@ -226,13 +227,6 @@ export type RecipesDeleteRecipeData = {
 
 export type RecipesDeleteRecipeResponse = Message;
 
-export type RecipesImproveRecipeData = {
-	id: string;
-	requestBody: Body_recipes_improve_recipe;
-};
-
-export type RecipesImproveRecipeResponse = unknown;
-
 export type RecipesGenerateRecipeData = {
 	requestBody: Body_recipes_generate_recipe;
 };
@@ -244,6 +238,13 @@ export type RecipesGenerateRecipePublicData = {
 };
 
 export type RecipesGenerateRecipePublicResponse = RecipePublic;
+
+export type RecipesImproveRecipeData = {
+	id: string;
+	requestBody: Body_recipes_improve_recipe;
+};
+
+export type RecipesImproveRecipeResponse = unknown;
 
 export type UsersReadUsersData = {
 	limit?: number;

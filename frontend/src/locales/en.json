@@ -103,5 +103,43 @@
 		"directions": "Directions",
 		"addDirection": "Add a direction",
 		"enjoy": "Enjoy!"
+	},
+
+	"userSettings": {
+		"title": "User Settings",
+		"description": "Update your information below.",
+
+		"profileTitle": "Profile",
+		"profileDescription": "Update your basic profile information.",
+
+		"languageTitle": "Language",
+		"languageDescription": "Note: This only changes the application's language. Recipes will remain in their original language.",
+
+		"securityTitle": "Security",
+		"securityDescription": "Update your password to keep your account secure.",
+		"languageUpdated": "Language updated successfully",
+
+		"profileUpdated": "Profile updated successfully",
+		"profileUpdateError": "Failed to update profile",
+
+		"dangerZoneTitle": "Danger Zone",
+		"dangerZoneDescription": "Permanently delete your account and data.",
+
+		"username": "Username",
+		"language": "Language",
+		"currentPassword": "Current Password",
+		"newPassword": "New Password",
+		"confirmPassword": "Confirm Password",
+		"deleteAccount": "Delete Account",
+		"confirmDeleteTitle": "Are you sure?",
+		"confirmDeleteText": "This action is irreversible. Your account will be permanently deleted.",
+		"confirmDelete": "Yes, delete",
+		"cancel": "Cancel",
+		"save": "Save",
+		"passwordMismatch": "Passwords do not match."
+	},
+
+	"header": {
+		"userSettings": "Settings"
 	}
 }

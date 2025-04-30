@@ -90,3 +90,16 @@ def test_update_user(db: Session) -> None:
     assert user_2
     assert user.email == user_2.email
     assert verify_password(new_password, user_2.hashed_password)
+
+
+def test_delete_user(db: Session) -> None:
+    email = random_email()
+    password = random_lower_string()
+    user_in = UserCreate(email=email, password=password)
+    user = crud.create_user(session=db, user_create=user_in)
+    assert user.deleted_at is None
+
+    deleted_user = crud.delete_user(session=db, db_user=user)
+    assert deleted_user.deleted_at is not None
+    assert deleted_user.id == user.id
+    assert deleted_user.email == user.email
