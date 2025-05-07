@@ -12,7 +12,7 @@ import TypingEffectTitle from "@/components/TypingEffectTitle";
 
 import { useNavigateTo } from "@/hooks/use-navigate-to";
 import { useRecipe } from "@/hooks/use-recipe";
-import { RecipesService } from "@/client";
+import { RecipesService, RecipesPublic } from "@/client";
 
 import { promptExemples } from "@/prompt-examples";
 import { useAuth } from "@/hooks/use-auth";
@@ -26,7 +26,7 @@ function HomePage(): JSX.Element {
 
 	const { i18n, t } = useTranslation();
 	const { toRecipe, toGuestRecipe } = useNavigateTo();
-	const { setRecipes } = useRecipe();
+	const { setRecipes, recipes } = useRecipe();
 	const { isAuthenticated } = useAuth();
 
 	const lang = i18n.language.slice(0, 2) as "en" | "fr";
@@ -45,7 +45,10 @@ function HomePage(): JSX.Element {
 				: await RecipesService.generateRecipePublic(body);
 
 			if (isAuthenticated) {
-				setRecipes((recipes) => [...recipes, newRecipe]);
+				const updatedRecipes = [...recipes, newRecipe].sort((a, b) =>
+					new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+				);
+				setRecipes(updatedRecipes);
 				toRecipe(newRecipe.id);
 			} else {
 				sessionStorage.setItem(
