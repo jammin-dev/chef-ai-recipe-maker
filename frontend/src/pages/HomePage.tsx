@@ -18,6 +18,7 @@ import { promptExemples } from "@/prompt-examples";
 import { useAuth } from "@/hooks/use-auth";
 import TermsOfServiceSentance from "@/components/terms-of-service-sentance";
 import { TEMP_RECIPE_LOCAL_STORAGE_NAME } from "@/constants";
+import { TypoH2 } from "@/components/ui/typography";
 
 function HomePage(): JSX.Element {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,8 +46,9 @@ function HomePage(): JSX.Element {
 				: await RecipesService.generateRecipePublic(body);
 
 			if (isAuthenticated) {
-				const updatedRecipes = [...recipes, newRecipe].sort((a, b) =>
-					new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+				const updatedRecipes = [...recipes, newRecipe].sort(
+					(a, b) =>
+						new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
 				);
 				setRecipes(updatedRecipes);
 				toRecipe(newRecipe.id);
@@ -76,21 +78,21 @@ function HomePage(): JSX.Element {
 		}
 	};
 
-	const memorizedPromptExamples = useMemo(() => {
-		return promptExemples[lang].slice().sort(() => Math.random() - 0.5);
-	}, [lang]);
+	// const memorizedPromptExamples = useMemo(() => {
+	// 	return promptExemples[lang].slice().sort(() => Math.random() - 0.5);
+	// }, [lang]);
 
 	return (
-		<div className="flex flex-col flex-grow flex-1 w-full h-full md:min-w-md px-8">
-			<Label
-				className={`flex flex-col items-center justify-center flex-grow ${
+		<div className="flex flex-col flex-grow flex-1 w-full h-full justify-center md:min-w-md px-8">
+			{/* <Label
+				className={`flex flex-col items-center justify-center flex-grow hidden ${
 					isLoading ? "hidden" : ""
 				}`}
 			>
 				<TypingEffectTitle promptExamples={memorizedPromptExamples} />
-			</Label>
-			{isLoading && (
-				<Label className="flex flex-col items-center justify-center flex-grow">
+			</Label> */}
+			{/* {
+				<Label className="flex flex-col items-center justify-center">
 					<TypingEffectTitle
 						promptExamples={[
 							t("We're preparing your recipe!"),
@@ -98,13 +100,25 @@ function HomePage(): JSX.Element {
 						]}
 					/>
 				</Label>
-			)}
-			<div className="flex flex-col gap-4">
+			} */}
+			<div className="flex flex-col gap-4 items-center justify-center">
+				<Label className={"flex flex-col items-center justify-center mb-2"}>
+					{isLoading ? (
+						<TypingEffectTitle
+							promptExamples={[
+								t("We're preparing your recipe!"),
+								t("Hang tight!"),
+							]}
+						/>
+					) : (
+						<TypoH2>{t("What are we cooking today?")}</TypoH2>
+					)}
+				</Label>
 				<Textarea
 					maxLength={300}
 					onChange={(e) => setUserInput(e.target.value)}
 					placeholder={t("input.placeholder.recipe_prompt")}
-					className="resize-none min-h-[100px]"
+					className="resize-none min-h-[100px] lg:w-1/2 md:w-3/4"
 					disabled={isLoading}
 					onKeyDown={(e) => {
 						if (e.key === "Enter" && !e.shiftKey) {

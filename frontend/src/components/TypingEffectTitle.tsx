@@ -70,11 +70,11 @@ export default function TypingEffectTitle({
 	}, [charIndex, isDeleting, index, promptExamples]);
 
 	return (
-		<div className="h-16 w-4/5 md:w-3/4">
-			<TypoH2>
-				{displayedText}
-				<span className="inline-block w-1.5 animate-blink">|</span>
-			</TypoH2>
-		</div>
+		// <div className="h-16 w-4/5 md:w-3/4">
+		<TypoH2>
+			{displayedText}
+			<span className="inline-block w-1.5 animate-blink">|</span>
+		</TypoH2>
+		// {/* </div> */}
 	);
 }
