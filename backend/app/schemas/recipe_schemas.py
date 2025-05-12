@@ -73,6 +73,7 @@ class RecipePublic(RecipeBase):
     directions: list[DirectionPublic] = []
     created_at: datetime.datetime
     updated_at: datetime.datetime
+    last_accessed_at: datetime.datetime | None = None
     user: UserPublic | None = None
 
 
