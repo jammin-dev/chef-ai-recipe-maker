@@ -88,8 +88,10 @@ export type RecipePublic = {
 	directions?: Array<DirectionPublic>;
 	created_at: string;
 	updated_at: string;
-	last_accessed_at?: string | null;
+	last_accessed_at: string;
+	number_of_accesses: number;
 	user?: UserPublic | null;
+	deleted_at?: string | null;
 };
 
 export type RecipesPublic = {

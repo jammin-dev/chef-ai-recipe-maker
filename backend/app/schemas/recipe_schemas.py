@@ -73,8 +73,10 @@ class RecipePublic(RecipeBase):
     directions: list[DirectionPublic] = []
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    last_accessed_at: datetime.datetime | None = None
+    last_accessed_at: datetime.datetime
+    number_of_accesses: int
     user: UserPublic | None = None
+    deleted_at: datetime.datetime | None = None
 
 
 class RecipesPublic(SQLModel):
